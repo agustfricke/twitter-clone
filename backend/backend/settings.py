@@ -24,7 +24,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # My Apps
-    'users'
+    'users',
     # 3 Apps
     'rest_framework',
     'rest_framework.authtoken',
@@ -93,7 +93,12 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
+MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -113,32 +118,33 @@ SIMPLE_JWT = {
         'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken')
 }
 
-DJOSER = {
-    "LOGIN_FIELD": "email",
-    "USER_CREATE_PASSWORD_RETYPE": True,
-    "USERNAME_CHANGED_EMAIL_CONFIRMATION": True,
-    "PASSWORD_CHANGED_EMAIL_CONFIRMATION": True,
-    "SEND_CONFIRMATION_EMAIL": True,
-    "SET_USERNAME_RETYPE": True,
-    "SET_PASSWORD_RETYPE": True,
-    "USERNAME_RESET_CONFIRM_URL": "password/reset/confirm/{uid}/{token}",
-    "PASSWORD_RESET_CONFIRM_URL": "email/reset/confirm/{uid}/{token}",
-    "ACTIVATION_URL": "activate/{uid}/{token}",
-    "SEND_ACTIVATION_EMAIL": True,
-    "SERIALIZERS": {
-        "user_create": "users.serializers.UserCreateSerializer",  
-        "user": "users.serializers.UserCreateSerializer",
-        "current_user": "djoser.serializers.UserSerializer",
-        "user_delete": "djoser.serializers.UserSerializer",
-    },
-}
+# DJOSER = {
+#     "LOGIN_FIELD": "email",
+#     "USER_CREATE_PASSWORD_RETYPE": True,
+#     "USERNAME_CHANGED_EMAIL_CONFIRMATION": True,
+#     "PASSWORD_CHANGED_EMAIL_CONFIRMATION": True,
+#     "SEND_CONFIRMATION_EMAIL": True,
+#     "SET_USERNAME_RETYPE": True,
+#     "SET_PASSWORD_RETYPE": True,
+#     "USERNAME_RESET_CONFIRM_URL": "password/reset/confirm/{uid}/{token}",
+#     "PASSWORD_RESET_CONFIRM_URL": "email/reset/confirm/{uid}/{token}",
+#     "ACTIVATION_URL": "activate/{uid}/{token}",
+#     "SEND_ACTIVATION_EMAIL": True,
+#     "SERIALIZERS": {
+#         "user_create": "users.serializers.UserCreateSerializer",  
+#         "user": "users.serializers.UserCreateSerializer",
+#         "current_user": "djoser.serializers.UserSerializer",
+#         "user_delete": "djoser.serializers.UserSerializer",
+#     },
+# }
 
 
-CORS_ALLOWED_ORIGINS = [
-    "htpp://localhost:3000"
-    'http://localhost:5173/'
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "htpp://localhost:3000",
+#     'http://localhost:5173/'
+# ]
 
+AUTH_USER_MODEL = "users.User"
 
 
 

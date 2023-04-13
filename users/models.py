@@ -28,16 +28,19 @@ class CustomUserManager(UserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=200,unique=True)
     email = models.CharField(max_length=200, unique=True)
+    name = models.CharField(max_length=255)
     following = models.ManyToManyField("self",symmetrical=False,related_name="followed" ,blank=True)
     bio = models.TextField(blank=True ,default="")
     avatar = models.ImageField(default='default.jpg', upload_to='avatars')
     cover_image = models.ImageField(default='cover.jpg', upload_to='avatars')
     date_joined = models.DateTimeField(default=timezone.now)
 
+    is_staff = models.BooleanField(default=False)
+
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username','avatar']
+    REQUIRED_FIELDS = ['username', 'name']
 
     class Meta:
         ordering = ['-date_joined']

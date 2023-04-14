@@ -1,5 +1,6 @@
 import { useQuery } from "react-query"
-import { getTweets } from "../tweets/apiTweets"
+import { getTweets } from "../api/apiTweets"
+
 
 
 const Tweets = () => {

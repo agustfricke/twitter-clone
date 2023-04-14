@@ -1,4 +1,4 @@
-import { api } from "../useAxios"
+import { api } from "./useAxios"
 
 const axios = api()
 

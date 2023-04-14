@@ -1,14 +1,20 @@
-import LoginPage from "./api/components/LoginPage"
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Tweets from "./api/components/Tweets"
+import Tweets from "./components/Tweets"
+import LoginPage from './components/LoginPage'
+import Feed from './components/Feed'
+import Layout from './components/Layout'
 
 function App() {
 
   return (
   <Router>
     <Routes>
-        <Route path='/' element={<LoginPage/>}/>
+      <Route path='/' element={<Layout/>}>
+        <Route index element={<Feed/>}/>
+        <Route path='/login' element={<LoginPage/>}/>
         <Route path='/tweets' element={<Tweets/>}/>
+      </Route>
     </Routes>
   </Router>
   )

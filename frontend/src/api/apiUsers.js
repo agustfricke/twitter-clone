@@ -1,4 +1,4 @@
-import { ax } from "../useAxios"
+import { ax } from "./useAxios"
 
 export const login = async (data) => {
   const response = await ax.post('/users/login/', data)

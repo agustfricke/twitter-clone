@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from 'react-query'
-import { login } from '../users/apiUsers'
+import { login } from '../api/apiUsers'
 import { Formik, Field, Form } from 'formik'
 
 const LoginPage = () => {

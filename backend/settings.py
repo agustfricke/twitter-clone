@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
+
     'users',
     'tweets',
 ]
@@ -147,7 +148,7 @@ SIMPLE_JWT = {
 
     'ALGORITHM': 'HS256',
 
-    'VERIFYING_KEY': SECRET_KEY,
+    # 'VERIFYING_KEY': 
 
     'AUTH_HEADER_TYPES': ('Bearer',),
     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',

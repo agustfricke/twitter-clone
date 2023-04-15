@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Tweets from "./components/Tweets"
 import LoginPage from './components/LoginPage'
 import Feed from './components/Feed'
 import Layout from './components/Layout'
@@ -16,7 +15,6 @@ function App() {
         <Route path='/' element={<Layout/>}>
           <Route element={<PrivateRoute/>}>
             <Route index element={<Feed/>}/>
-            <Route path='/tweets' element={<Tweets/>}/>
             <Route path='/profile' element={<UserProfile/>}/>
           </Route>
         </Route>

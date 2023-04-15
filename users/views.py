@@ -34,8 +34,5 @@ def register(request):
         message = {'detail': 'Something went wrong'}
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
-class UserList(ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
 
 

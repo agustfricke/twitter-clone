@@ -1,22 +1,32 @@
-
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Tweets from "./components/Tweets"
 import LoginPage from './components/LoginPage'
 import Feed from './components/Feed'
 import Layout from './components/Layout'
+import PrivateRoute from './components/PrivateRoute'
+import Register from './components/Register'
+import UserProfile from './components/UserProfile'
 
 function App() {
 
   return (
-  <Router>
-    <Routes>
-      <Route path='/' element={<Layout/>}>
-        <Route index element={<Feed/>}/>
-        <Route path='/login' element={<LoginPage/>}/>
-        <Route path='/tweets' element={<Tweets/>}/>
-      </Route>
-    </Routes>
-  </Router>
+    <Router>
+      <Routes>
+
+        <Route path='/' element={<Layout/>}>
+          <Route element={<PrivateRoute/>}>
+            <Route index element={<Feed/>}/>
+            <Route path='/tweets' element={<Tweets/>}/>
+            <Route path='/profile' element={<UserProfile/>}/>
+          </Route>
+        </Route>
+
+        <Route path='auth'>
+          <Route path='login' element={<LoginPage/>}/>
+          <Route path='register' element={<Register/>}/>
+        </Route>
+      </Routes>
+    </Router>
   )
 }
 

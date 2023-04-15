@@ -4,11 +4,18 @@ import { IoIosNotificationsOutline } from "react-icons/io";
 import { BsPersonFill } from "react-icons/bs";
 import { HiOutlineEnvelope } from "react-icons/hi2";
 import { RiHome7Fill } from "react-icons/ri";
-
-
+import { logout } from "../api/apiUsers";
+import { useNavigate } from "react-router-dom";
 
 
 const SideBar = () => {
+
+  const nav = useNavigate()
+
+  function logoutUser () {
+    logout()
+    nav('/auth/login')
+  }
   
   return (
     <>
@@ -65,6 +72,8 @@ const SideBar = () => {
       <BsPersonFill className="mr-3" size={28} />
         Profile
       </p>
+
+        <button onClick={logoutUser}>Logout</button>
       
     </>
 

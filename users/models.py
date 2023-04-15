@@ -31,8 +31,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=255)
     following = models.ManyToManyField("self",symmetrical=False,related_name="followed" ,blank=True)
     bio = models.TextField(blank=True ,default="")
-    avatar = models.ImageField(default='default.jpg', upload_to='avatars')
-    cover_image = models.ImageField(default='cover.jpg', upload_to='avatars')
+    avatar = models.ImageField(default='user.png')
+    cover_image = models.ImageField(default='cover.png')
     date_joined = models.DateTimeField(default=timezone.now)
 
     is_staff = models.BooleanField(default=False)

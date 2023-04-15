@@ -1,7 +1,6 @@
 import { AiFillHeart, AiOutlineRetweet, AiOutlineMessage } from 'react-icons/ai';
 import Add from './Add';
-import image from "../assets/favicon.ico"
-
+import image from "../assets/cover.png"
 
 const Feed = () => {
   return (
@@ -45,7 +44,7 @@ const Feed = () => {
   transition
 ">
         <div className="flex flex-row items-start gap-3">
-        <img className="h-11 w-11 rouned-full" src={image} />
+        <img className="h-11 w-11 rounded-full" src={image} />
           <div>
             <div className="flex flex-row items-center gap-2">
               <p

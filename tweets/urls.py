@@ -8,4 +8,5 @@ router.register(r'tweets', views.TweetViewSet, basename='tweets')
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('create/', views.create)
 ]

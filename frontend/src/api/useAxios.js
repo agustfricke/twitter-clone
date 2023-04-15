@@ -8,18 +8,23 @@ export const ax = axios.create({
 
 export const api = () => {
 
+  const userInfo = localStorage.getItem('access')
+
   const axiosInstance = axios.create({
     baseURL: 'http://127.0.0.1:8000',
-    headers: { Authorization: `Bearer ${localStorage.getItem('access')}` }
+    headers: { Authorization: `Bearer ${userInfo}` }
   })
 
   axiosInstance.interceptors.request.use(async req => {
 
     const user = jwt_decode(localStorage.getItem('access'))
+    localStorage.setItem('username', user.username)
     const isExpired = dayjs.unix(user.exp).diff(dayjs()) > 1
 
     if (!isExpired) {
-      return console.log('Token expired bro')
+      localStorage.removeItem('access')
+      localStorage.removeItem('refresh')
+      localStorage.removeItem('username')
     } else {
       console.log('Sending refresh token') 
       const response = await axios.post('http://127.0.0.1:8000/users/refresh/', {

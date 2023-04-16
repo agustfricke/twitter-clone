@@ -19,6 +19,7 @@ export const api = () => {
 
     const user = jwt_decode(localStorage.getItem('access'))
     localStorage.setItem('username', user.username)
+    localStorage.setItem('avatar', user.avatar)
     const isExpired = dayjs.unix(user.exp).diff(dayjs()) > 1
 
     if (!isExpired) {

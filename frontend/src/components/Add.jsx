@@ -9,6 +9,8 @@ const Add = () => {
 
   const nav = useNavigate()
 
+  const avatar = localStorage.getItem('avatar')
+
   const queryClient = useQueryClient()
 
   const addTweetMutation = useMutation({
@@ -44,7 +46,7 @@ const Add = () => {
         <Form>
       <div className='flex gap-3 w-full border-b-[1px] 
         border-neutral-800 p-3'>
-        <img src={image} className='h-14 w-14 rounded-full ' />
+            <img src={`http://127.0.0.1:8000/${avatar}`} className='h-14 w-14 rounded-full ' />
         
         <Field id='content' name='content'
         className='bg-transparent grow outline-none ' placeholder="What's happening" />

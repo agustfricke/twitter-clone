@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery, useQueryClient, useMutation } from "react-query";
-import { getUserInfo } from "../api/apiUsers";
+import { getUserInfo, updateProfile } from "../api/apiUsers";
 import { deleteTweet, userTweets, editTweet } from "../api/apiTweets";
 import {
   AiFillHeart,
@@ -19,9 +19,26 @@ const UserProfile = () => {
 
   const { username } = useParams()
 
+  const myUser = localStorage.getItem('username')
+
   const [show, setShow] = useState(false)
+  const [show1, setShow1] = useState(false)
 
   const queryClient = useQueryClient()
+
+  const updateProfileMutation = useMutation({
+    mutationFn: updateProfile,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user', username]})
+      setShow1(false)
+      toast.success('User updated successfully')
+    },
+    onError: (error) => {
+      setShow1(false)
+      toast.error(error)
+    }
+  })
+
 
   const editTweetMutation = useMutation({
     mutationFn: editTweet,
@@ -32,7 +49,7 @@ const UserProfile = () => {
     },
     onError: (error) => {
       setShow(false)
-      toast.error(error.message)
+      toast.error(error)
     }
   })
 
@@ -47,14 +64,14 @@ const UserProfile = () => {
     }
   })
 
-
   const { data: user, isLoading: loadingUser , isError: isErrorUser , error: errorUser } = useQuery({
     queryKey: ['user', username],
     queryFn: () => getUserInfo(username),
   })
 
+
   const { data: tweets, isLoading: loadingTweets, isError: isErrorTweets, error: errorTweets } = useQuery({
-    queryFn: userTweets,
+    queryFn: () => userTweets(username),
     queryKey: ['tweets']
   })
 
@@ -66,8 +83,6 @@ const UserProfile = () => {
 
   return (
     <>
-
-
       <div className="border-b-[1px] border-neutral-800 p-5">
         <div className="flex flex-row items-start gap-3">
           <div>
@@ -99,15 +114,40 @@ const UserProfile = () => {
       <img className="bg-cover h-[250px] w-full" src={user.cover_image} />
 
       <div className="flex justify-between">
+
       <img
         src={user.avatar}
         className="w-40 h-40 ml-3 object-cover -mt-20 shadow-2xl rounded-full" />
 
-      <Link to="/edit-profile">
-        <button className="bg-sky-500 mr-7 text-white font-semibold rounded-full px-10 py-2 mt-3 ml-3 hover:bg-sky-600 transition">
+          <div>
+        <button onClick={() => setShow1(true)} className="bg-sky-500 mr-7 text-white font-semibold rounded-full px-7 py-3 mt-3 ml-3 hover:bg-sky-600 transition">
           Edit 
         </button>
-      </Link>
+          </div>
+
+      {show1 && (
+
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 ">
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-800 w-[500px] h-[200px] rounded-md">
+              <p className="text-xl text-white text-center my-8 ">Edit Tweet</p>
+      <Formik
+        initialValues={{
+                name: user.name,
+        }}
+        onSubmit={(values) => {
+          updateProfileMutation.mutate({ username,  ...values })}}
+      >
+              <Form>
+                <Field name='name' id='name' className="bg-gray-700 text-white rounded-full p-2 ml-5" />
+              <button type='submit'className="bg-sky-500 mr-7 text-white font-semibold rounded-full px-10 py-2 mt-3 ml-3 hover:bg-sky-600 transition">
+                  Edit
+              </button>
+              </Form>
+        </Formik>
+          </div>
+        </div>
+
+      )}
 
       </div>
 
@@ -197,6 +237,8 @@ const UserProfile = () => {
                   </p>
               </div>
 
+                {myUser === username && (
+                  <>
               <div 
                   onClick={() => deleteTaskMutation.mutate(t.id)}
                   className="flex flex-row items-center text-neutral-500 gap-2 cursor-pointer transition hover:text-red-500">
@@ -208,6 +250,8 @@ const UserProfile = () => {
                 <AiFillEdit size={25} />
                   </button>
               </div>
+                 </> 
+                  )}
 
       {show && (
 

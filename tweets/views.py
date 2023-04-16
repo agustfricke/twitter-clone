@@ -9,8 +9,8 @@ from . permissions import IsOwnerOrReadOnly
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def get_user_tweets(request):
-    user = User.objects.get(username=request.user)
+def get_user_tweets(request, username):
+    user = User.objects.get(username=username)
     tweets = Tweet.objects.filter(user=user)
     serializer = TweetSerializer(tweets, many=True)
     return Response(serializer.data)

@@ -3,7 +3,9 @@ import { api } from "./useAxios"
 
 const axios = api()
 
-// const username = localStorage.getItem('username')
+export const updateProfile = async (data) => {
+  await axios.put(`/users/users/${data.username}/`, data)
+}
 
 export const register = async (data) => {
   await ax.post('/users/register/', data)

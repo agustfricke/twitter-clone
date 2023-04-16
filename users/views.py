@@ -1,20 +1,23 @@
 from rest_framework import serializers, status
+from rest_framework import generics
 from django.contrib.auth.hashers import make_password
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 
 from . models import User
-from . serializers import UserSerializer, MyTokenObtainPairSerializer, MyUserSerializer
+from . serializers import UserSerializer, MyTokenObtainPairSerializer, MyUserSerializer, UserEditSerializer
 from . permissions import IsUserOrReadOnly
 
-class UserDetailView(RetrieveUpdateDestroyAPIView):
+class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = [IsUserOrReadOnly]
+    serializer_class = UserEditSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly,IsUserOrReadOnly]
     lookup_field = 'username'
     lookup_url_kwarg = 'username'
+
 
 class MyTokenObtainPairSerializer(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer

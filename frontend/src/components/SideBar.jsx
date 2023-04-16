@@ -12,6 +12,8 @@ const SideBar = () => {
 
   const nav = useNavigate()
 
+  const username = localStorage.getItem('username')
+
   function logoutUser () {
     logout()
     nav('/auth/login')
@@ -50,7 +52,7 @@ const SideBar = () => {
         </button>
       </Link>
 
-      <Link to={'/profile'}>
+      <Link to={`${username}`}>
         <button 
           className="rounded-full text-xl p-4 flex text-slate-200 hover:bg-blue-300 hover:bg-opacity-10 cursor-pointer">
           <BsPersonFill className="mr-3" size={28} />

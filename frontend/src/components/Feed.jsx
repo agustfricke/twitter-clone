@@ -3,8 +3,10 @@ import { useQuery } from "react-query"
 import { getTweets } from "../api/apiTweets"
 import Add from './Add';
 import image from "../assets/cover.png"
+import { Link } from 'react-router-dom';
 
 const Feed = () => {
+
   const { data: tweets, isLoading, isError, error } = useQuery({
 
     queryFn: getTweets,
@@ -43,7 +45,9 @@ const Feed = () => {
               <div className="flex flex-row items-center gap-2">
 
                 <p className="text-white font-semibold cursor-pointer hover:underline">
+                  <Link to={`${t.user}`}>
                   {t.user}
+                  </Link>
                 </p>
 
                 <span className="text-neutral-500 cursor-pointer hover:underline hidden md:block">

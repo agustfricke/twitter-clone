@@ -3,7 +3,7 @@ import { api } from "./useAxios"
 
 const axios = api()
 
-const username = localStorage.getItem('username')
+// const username = localStorage.getItem('username')
 
 export const register = async (data) => {
   await ax.post('/users/register/', data)
@@ -15,7 +15,7 @@ export const logout = () => {
   localStorage.removeItem('username')
 }
 
-export const getUserInfo = async () => {
+export const getUserInfo = async (username) => {
   const response = await axios.get(`/users/users/${username}/`)
   return response.data
 }

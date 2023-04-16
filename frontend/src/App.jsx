@@ -7,6 +7,7 @@ import Register from './components/Register'
 import UserProfile from './components/UserProfile'
 
 function App() {
+	 
 
   return (
     <Router>
@@ -16,6 +17,7 @@ function App() {
           <Route element={<PrivateRoute/>}>
             <Route index element={<Feed/>}/>
             <Route path='/profile' element={<UserProfile/>}/>
+            <Route path=':username' element={<UserProfile/>}/>
           </Route>
         </Route>
 

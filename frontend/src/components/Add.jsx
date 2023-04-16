@@ -29,14 +29,18 @@ const Add = () => {
       p-5 
       ">
       
-            <Formik
-              initialValues={{
-                content: '',
-              }}
-              onSubmit={(values) => {
-                addTweetMutation.mutate({ ...values })
-              }}
-            >
+      <Formik
+        initialValues={{
+          content: '',
+        }}
+        onSubmit={(values, actions) => {
+          addTweetMutation.mutate({ ...values })
+          actions.resetForm({
+            values: {
+              content: '',
+            },
+          })}}
+      >
         <Form>
       <div className='flex gap-3 w-full border-b-[1px] 
         border-neutral-800 p-3'>
@@ -45,13 +49,7 @@ const Add = () => {
         <Field id='content' name='content'
         className='bg-transparent grow outline-none ' placeholder="What's happening" />
       </div>
-      <div className='flex justify-between p-3'>
-        <BsImage className="flex 
-          text-neutral-500 
-          cursor-pointer 
-          transition 
-          mt-3
-          hover:text-sky-500" size={20} />
+      <div className='flex justify-end p-3'>
 
         <button type='submit' className="bg-sky-400 hover:bg-sky-500 p-2 px-5 rounded-full text-white font-bold">
           Tweet

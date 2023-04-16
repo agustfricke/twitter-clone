@@ -1,5 +1,8 @@
+
 import image from "../assets/favicon.ico"
+
 const WhoFollow = () => {
+
   return (
     <>
       <div

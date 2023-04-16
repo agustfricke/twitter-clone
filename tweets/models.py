@@ -4,6 +4,7 @@ from users.models import User
 class Tweet(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.CharField(max_length=255)
+    image = models.ImageField(blank=True)
     liked = models.ManyToManyField(User, related_name='liked', blank=True)
     retweeted = models.ManyToManyField(User, related_name='retweeted', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

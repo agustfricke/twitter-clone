@@ -34,24 +34,37 @@ const Add = () => {
       <Formik
         initialValues={{
           content: '',
+          image: ""
         }}
         onSubmit={(values, actions) => {
           addTweetMutation.mutate({ ...values })
           actions.resetForm({
             values: {
               content: '',
+              image: '',
             },
           })}}
       >
         <Form>
       <div className='flex gap-3 w-full border-b-[1px] 
         border-neutral-800 p-3'>
+
             <img src={`http://127.0.0.1:8000/${avatar}`} className='h-14 w-14 rounded-full ' />
         
         <Field id='content' name='content'
         className='bg-transparent grow outline-none ' placeholder="What's happening" />
+
+        <Field id='image' name='image' type='file'
+        className='bg-transparent grow outline-none ' placeholder="What's happening" />
+
       </div>
-      <div className='flex justify-end p-3'>
+      <div className='flex justify-between p-3'>
+             <BsImage className="flex 
+          text-neutral-500 
+          cursor-pointer 
+          transition 
+          mt-3
+          hover:text-sky-500" size={20} />
 
         <button type='submit' className="bg-sky-400 hover:bg-sky-500 p-2 px-5 rounded-full text-white font-bold">
           Tweet

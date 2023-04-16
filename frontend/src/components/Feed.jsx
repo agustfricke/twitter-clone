@@ -4,6 +4,7 @@ import { getTweets } from "../api/apiTweets"
 import Add from './Add';
 import image from "../assets/cover.png"
 import { Link } from 'react-router-dom';
+import Test from './Test';
 
 const Feed = () => {
 
@@ -19,6 +20,8 @@ const Feed = () => {
 
   return (
     <>
+
+      <Test/>
 
       <div className="border-b-[1px] border-neutral-800 p-5">
         <div className="flex flex-row items-start gap-3">
@@ -63,6 +66,8 @@ const Feed = () => {
               <div className="text-white mt-1 text-start">
                 {t.content}
               </div>
+
+                <img src={t.image} />
 
               <div className="flex flex-row items-center mt-3 gap-10">
                 <div className="flex flex-row items-center text-neutral-500 gap-2 cursor-pointer transition hover:text-sky-500">

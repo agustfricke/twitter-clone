@@ -4,4 +4,5 @@ from . import views
 urlpatterns = [
     path('', views.TweetList.as_view()),
     path('<int:pk>/', views.TweetDetail.as_view()),
+    path('user/', views.get_user_tweets),
 ]

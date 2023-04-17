@@ -13,8 +13,8 @@ class Tweet(models.Model):
         ordering = ['-created_at']
 
     @property
-    def is_retweet(self):
-        return True if self.retweeted is None else False
+    def retweeted_count(self):
+        return self.retweeted.all().count()
 
     @property
     def likes_count(self):

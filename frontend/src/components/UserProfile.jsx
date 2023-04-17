@@ -72,8 +72,10 @@ const UserProfile = () => {
 
   const { data: tweets, isLoading: loadingTweets, isError: isErrorTweets, error: errorTweets } = useQuery({
     queryFn: () => userTweets(username),
-    queryKey: ['tweets']
+    queryKey: ['user_tweets']
   })
+
+  console.log(tweets)
 
   if(loadingTweets) return <div>Loading</div>
   if(isErrorTweets) return <div>Error: {errorTweets.message}</div>
@@ -224,16 +226,16 @@ const UserProfile = () => {
               </div>
 
               <div className="flex flex-row items-center text-neutral-500 gap-2 cursor-pointer transition hover:text-green-500">
-                <AiOutlineRetweet size={20} />
+                <AiOutlineRetweet size={20} color={"green"} />
                 <p>
-                    {t.retweeted.length}
+                    {t.retweeted_count}
                   </p>
               </div>
 
               <div className="flex flex-row items-center text-neutral-500 gap-2 cursor-pointer transition hover:text-red-500">
                 <AiFillHeart color={"red"} size={20} />
                 <p>
-                    {t.liked.length}
+                    {t.likes_count}
                   </p>
               </div>
 

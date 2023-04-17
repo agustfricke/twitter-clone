@@ -1,5 +1,5 @@
 import { AiFillHeart, AiOutlineRetweet, AiOutlineMessage } from 'react-icons/ai';
-import { getTweets, likeTweet } from "../api/apiTweets"
+import { getTweets, likeTweet, retweet } from "../api/apiTweets"
 import Add from './Add';
 import image from "../assets/cover.png"
 import { Link } from 'react-router-dom';
@@ -9,11 +9,29 @@ const Feed = () => {
 
   const queryClient = useQueryClient()
 
+
+
   const { data: tweets, isLoading, isError, error } = useQuery({
 
     queryFn: getTweets,
     queryKey: ['tweets']
   })
+
+  console.log(tweets)
+
+  const retweetMutation = useMutation({
+    mutationFn: retweet,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tweets']})
+    },
+    onError: (error) => {
+      console.error(error)
+    }
+  })
+
+  const handleRetweet = (id) => {
+    retweetMutation.mutate(id)
+  }
 
   const likeTweetMutation = useMutation({
     mutationFn: likeTweet,
@@ -24,6 +42,7 @@ const Feed = () => {
       console.error(error)
     }
   })
+
 
   const handleLike = (id) => {
     likeTweetMutation.mutate(id)
@@ -81,6 +100,9 @@ const Feed = () => {
                 {t.content}
               </div>
 
+
+
+
                 <img src={t.image} />
 
               <div className="flex flex-row items-center mt-3 gap-10">
@@ -95,21 +117,23 @@ const Feed = () => {
                 </div>
 
                 <div className="flex flex-row items-center text-neutral-500 gap-2 cursor-pointer transition hover:text-green-500">
-                  <AiOutlineRetweet size={20} />
+                  <AiOutlineRetweet size={20}
+                      { ...t.iretweeted? {color: 'green'} : {color: 'white'}}
+                      onClick={() => handleRetweet(t.id)}/>
                   <p>
-                    {t.retweeted.length}
+                    {t.retweeted_count}
                   </p>
                 </div>
 
 
                 <div className="flex flex-row items-center text-neutral-500 gap-2 cursor-pointer transition hover:text-red-500">
 
-                    <button onClick={() => handleLike(t.id)}>
-                  <AiFillHeart color={'red'} size={20} />
+                  <AiFillHeart onClick={() => handleLike(t.id)} 
+                    { ...t.iliked ? {color: 'red'} : {color: 'white'} }
+                    size={20} />
                   <p>
-                    {t.liked.length}
+                    {t.likes_count}
                   </p>
-                    </button>
                 </div>
 
 

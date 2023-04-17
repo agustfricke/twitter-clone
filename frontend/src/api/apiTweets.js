@@ -2,6 +2,10 @@ import { api } from "./useAxios"
 
 const axios = api()
 
+export const retweet = async (id) => {
+  await axios.post(`/tweets/retweet/${id}/`)
+}
+
 export const likeTweet = async (id) => {
   await axios.post(`/tweets/like/${id}/`)
 }

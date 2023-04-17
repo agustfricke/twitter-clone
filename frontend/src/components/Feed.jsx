@@ -1,18 +1,33 @@
 import { AiFillHeart, AiOutlineRetweet, AiOutlineMessage } from 'react-icons/ai';
-import { useQuery } from "react-query"
-import { getTweets } from "../api/apiTweets"
+import { getTweets, likeTweet } from "../api/apiTweets"
 import Add from './Add';
 import image from "../assets/cover.png"
 import { Link } from 'react-router-dom';
-import Test from './Test';
+import { useMutation, useQueryClient, useQuery} from 'react-query'
 
 const Feed = () => {
+
+  const queryClient = useQueryClient()
 
   const { data: tweets, isLoading, isError, error } = useQuery({
 
     queryFn: getTweets,
     queryKey: ['tweets']
   })
+
+  const likeTweetMutation = useMutation({
+    mutationFn: likeTweet,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tweets']})
+    },
+    onError: (error) => {
+      console.error(error)
+    }
+  })
+
+  const handleLike = (id) => {
+    likeTweetMutation.mutate(id)
+  }
 
 
   if (isLoading) return <div>Loading</div>
@@ -86,12 +101,17 @@ const Feed = () => {
                   </p>
                 </div>
 
+
                 <div className="flex flex-row items-center text-neutral-500 gap-2 cursor-pointer transition hover:text-red-500">
+
+                    <button onClick={() => handleLike(t.id)}>
                   <AiFillHeart color={'red'} size={20} />
                   <p>
                     {t.liked.length}
                   </p>
+                    </button>
                 </div>
+
 
               </div>
             </div>

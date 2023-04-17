@@ -2,6 +2,10 @@ import { api } from "./useAxios"
 
 const axios = api()
 
+export const likeTweet = async (id) => {
+  await axios.post(`/tweets/like/${id}/`)
+}
+
 export const editTweet = async (data) => {
   await axios.put(`/tweets/${data.id}/`, data)
 }

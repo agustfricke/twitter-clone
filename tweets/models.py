@@ -14,7 +14,7 @@ class Tweet(models.Model):
 
     @property
     def is_retweet(self):
-        return self.parent != None
+        return True if self.retweeted is None else False
 
     @property
     def likes_count(self):

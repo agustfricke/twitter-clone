@@ -4,6 +4,7 @@ import image from "../assets/cover.png"
 import { Formik, Field, Form } from 'formik'
 import { addTweet } from "../api/apiTweets";
 import { useNavigate } from "react-router-dom";
+import FormHook from "./FormHook";
 
 const Add = () => {
 
@@ -17,6 +18,7 @@ const Add = () => {
     mutationFn: addTweet,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tweets']})
+      nav('/')
     },
     onError: (error) => {
       console.error(error)
@@ -34,14 +36,12 @@ const Add = () => {
       <Formik
         initialValues={{
           content: '',
-          image: ""
         }}
         onSubmit={(values, actions) => {
           addTweetMutation.mutate({ ...values })
           actions.resetForm({
             values: {
               content: '',
-              image: '',
             },
           })}}
       >
@@ -54,8 +54,6 @@ const Add = () => {
         <Field id='content' name='content'
         className='bg-transparent grow outline-none ' placeholder="What's happening" />
 
-        <Field id='image' name='image' type='file'
-        className='bg-transparent grow outline-none ' placeholder="What's happening" />
 
       </div>
       <div className='flex justify-between p-3'>

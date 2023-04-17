@@ -30,6 +30,8 @@ const SeeImage = ({ file }) => {
 
 const Test = () => {
 
+  const nav = useNavigate()
+
   const queryClient = useQueryClient()
 
   const addTweetMutation = useMutation({
@@ -64,9 +66,7 @@ const Test = () => {
 
 
       addTweetMutation.mutate(formData)
- actions.resetForm();
-        // formData.delete('image')
-        // formData.delete('content')
+      nav('/auth/login/')
 
       }catch (error) {
         console.log(error)

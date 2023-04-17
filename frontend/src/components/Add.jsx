@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useState } from "react";
+import { AiFillCloseCircle } from "react-icons/ai";
 
 const Add = () => {
 
@@ -20,7 +21,6 @@ const Add = () => {
     mutationFn: addTweet,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tweets']})
-      nav('/')
     },
     onError: (error) => {
       console.error(error)
@@ -34,11 +34,6 @@ const Add = () => {
 
   const formik = useFormik({
     initialValues: {genInitialValues},
-    validationSchema: yup.object({
-      image: yup.mixed().required('Image is required')
-      .test('fileSize', 'File too large', (value) => value && value.size < 1024 * 1024 )
-      .test('fileFormat', 'Unsupported Format', (value) => value && ['image/jpg', 'image/jpeg', 'image/png'].includes(value.type))
-    }),
     onSubmit: (values, { resetForm }) => {
       const { image, content } = values
 
@@ -46,10 +41,15 @@ const Add = () => {
 
       try { 
 
-      formData.append('image', image)
-      formData.append('content', content)
+        if (!image) {
+            addTweetMutation.mutate({ content })
+        } else {
+            formData.append('image', image)
+            formData.append('content', content)
 
-      addTweetMutation.mutate(formData)
+            addTweetMutation.mutate(formData)
+        }
+
         resetForm({ values: genInitialValues() });
       }catch (error) {
         console.log(error)
@@ -69,8 +69,20 @@ const SeeImage = ({ file }) => {
       setPreview(reader.result)
   };
 
+      const handleClose = () => {
+        setPreview(null)
+      }
+
     return (
-      <div className="items-center bg-white  p-5">
+      <div className="flex justify-between p-5 bg-gray-800 rounded-lg">
+
+          <div className="left-0 top-0">
+          <button className="text-slate-400 hover:text-slate-200 transition-colors" onClick={handleClose}>
+            <AiFillCloseCircle size={30}/>
+          </button>
+
+          </div>
+
         <img src={preview} width={250} height={250}  />
       </div>
     )
@@ -94,12 +106,6 @@ const SeeImage = ({ file }) => {
           <input 
 type="text" name="content" onChange={formik.handleChange} value={formik.values.content} 
         className='bg-transparent grow outline-none ' placeholder="What's happening" />
-
-      {/* <input type="file" name="image" onChange={(event) => formik.setFieldValue("image", event.currentTarget.files[0])} /> */}
-
-        {formik.errors.image && (
-          <div>{formik.errors.image}</div>
-        )}
 
 
       </div>

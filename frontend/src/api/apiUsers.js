@@ -26,9 +26,12 @@ export const getUserInfo = async (username) => {
 export const login = async (data) => {
   const response = await ax.post('/users/login/', data)
   const { access, refresh } = response.data
+
   localStorage.setItem('access', access)
   localStorage.setItem('refresh', refresh)
+
   const user = jwt_decode(localStorage.getItem('access'))
+
     localStorage.setItem('username', user.username)
     localStorage.setItem('avatar', user.avatar)
 }

@@ -21,7 +21,6 @@ const Feed = () => {
   return (
     <>
 
-      <Test/>
 
       <div className="border-b-[1px] border-neutral-800 p-5">
         <div className="flex flex-row items-start gap-3">
@@ -58,7 +57,7 @@ const Feed = () => {
                 </span>
 
                 <span className="text-neutral-500 text-sm">
-                  {t.created_at}
+          {new Date(t.created_at).toDateString().slice(4)}
                 </span>
 
               </div>

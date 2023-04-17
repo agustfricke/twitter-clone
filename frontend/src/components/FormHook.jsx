@@ -6,11 +6,15 @@ const FormHook = ({ onSubmit, values }) => {
   const [image, setImage] = useState('' || values.image)
 
   const handleChangeContent = (e) => setContent(e.target.value)
-  const handleChangeImage = (e) => setImage(e.target.value)
+  const handleChangeImage = (e) => setImage(e.target.files[0])
+
+  const formData = new FormData()
+  formData.append('image', image)
+
     
   const handleSubmit = (e) => {
     e.preventDefault()
-    onSubmit({ content, image })
+    onSubmit({ content, formData})
     setContent('')
     setImage('')
   }
@@ -19,6 +23,7 @@ const FormHook = ({ onSubmit, values }) => {
     <form onSubmit={handleSubmit}>
       <input type="text" value={content} onChange={handleChangeContent} />
       <input type="file" value={image} onChange={handleChangeImage} />
+      <button type="submit">Submit</button>
     </form>
   )
 }

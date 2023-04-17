@@ -1,0 +1,29 @@
+fix dates 
+
+fix auth with context API -> testing solo -> include in the project
+
+add tweet form look good
+edit tweet form look good
+edit profile form look good
+
+infinity scroll
+
+search bar
+
+random user to follow
+
+like 
+
+retweet
+
+comment
+
+list 4 (like, tweets, media, comment) in user profile
+
+private chat with ws
+
+notifications with ws
+
+
+
+

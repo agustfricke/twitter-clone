@@ -44,30 +44,30 @@ const Test = () => {
     }
   })
 
+  const genInitialValues = () => ({
+  content: "",
+  image: "", 
+});
+
   const formik = useFormik({
-    initialValues: {
-      image: '',
-      content: ''
-    },
+    initialValues: {genInitialValues},
     validationSchema: yup.object({
       image: yup.mixed().required('Image is required')
       .test('fileSize', 'File too large', (value) => value && value.size < 1024 * 1024 )
       .test('fileFormat', 'Unsupported Format', (value) => value && ['image/jpg', 'image/jpeg', 'image/png'].includes(value.type))
     }),
-    onSubmit: (actions) => {
-      const { image } = formik.values
-      const { content } = formik.values
+    onSubmit: (values, { resetForm }) => {
+      const { image, content } = values
 
       const formData = new FormData()
 
       try { 
+
       formData.append('image', image)
       formData.append('content', content)
 
-
       addTweetMutation.mutate(formData)
-      nav('/auth/login/')
-
+        resetForm({ values: genInitialValues() });
       }catch (error) {
         console.log(error)
       }
@@ -76,7 +76,7 @@ const Test = () => {
   return (
     <>
       <form onSubmit={formik.handleSubmit} >
-        <input type="text" name="content" onChange={formik.handleChange} />
+        <input type="text" name="content" onChange={formik.handleChange} value={formik.values.content} />
       <input type="file" name="image" onChange={(event) => formik.setFieldValue("image", event.currentTarget.files[0])} />
         {formik.errors.image && (
           <div>{formik.errors.image}</div>

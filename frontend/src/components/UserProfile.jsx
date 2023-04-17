@@ -207,7 +207,7 @@ const UserProfile = () => {
               </span>
 
               <span className="text-neutral-500 text-sm">
-                  {t.created_at}
+          {new Date(t.created_at).toDateString().slice(4)}
                 </span>
 
             </div>

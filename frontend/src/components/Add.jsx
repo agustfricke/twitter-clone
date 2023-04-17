@@ -107,12 +107,16 @@ type="text" name="content" onChange={formik.handleChange} value={formik.values.c
 
           <div class="image-upload">
     <label for="file-input">
+              {!formik.values.image && 
+
              <BsImage className="flex 
           text-neutral-500 
           cursor-pointer 
           transition 
           mt-3
           hover:text-sky-500" size={20} />
+
+            }
     </label>
 
     <input 
@@ -121,14 +125,21 @@ type="text" name="content" onChange={formik.handleChange} value={formik.values.c
 </div>
 
 
+      </div>
+
+      <div className="flex justify-center items-center">
+
+        {formik.values.image && <SeeImage file={formik.values.image} />}
+      </div>
+
+          <div className="flex justify-end">
 
         <button type='submit' className="bg-sky-400 hover:bg-sky-500 p-2 px-5 rounded-full text-white font-bold">
           Tweet
         </button>
-      </div>
+          </div>
 </form>
 
-        {formik.values.image && <SeeImage file={formik.values.image} />}
     </div>
 
   )

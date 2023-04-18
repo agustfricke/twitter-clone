@@ -5,6 +5,7 @@ import Layout from './components/Layout'
 import PrivateRoute from './components/PrivateRoute'
 import Register from './components/Register'
 import UserProfile from './components/UserProfile'
+import SoloTweet from './components/SoloTweet'
 
 function App() {
 	 
@@ -18,6 +19,7 @@ function App() {
             <Route index element={<Feed/>}/>
             <Route path='/profile' element={<UserProfile/>}/>
             <Route path=':username' element={<UserProfile/>}/>
+            <Route path='/tweet/:id' element={<SoloTweet/>}/>
           </Route>
         </Route>
 

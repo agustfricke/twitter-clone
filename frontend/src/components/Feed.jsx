@@ -74,6 +74,7 @@ const Feed = () => {
 
 
 
+        <Link to={`/tweet/${t.id}`}>
         <div key={t.id} className="border-b-[1px] border-neutral-800 p-5 cursor-pointer hover:bg-neutral-900 transition">
           <div className="flex flex-row items-start gap-3">
 
@@ -140,6 +141,7 @@ const Feed = () => {
 
           </div>
         </div>
+      </Link>
 
       ))}
 

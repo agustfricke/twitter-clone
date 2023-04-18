@@ -7,13 +7,25 @@ from users.models import User
 from . serializers import TweetSerializer, MyTweetSerializer, CommentSerializer
 from . permissions import IsOwnerOrReadOnly
 
-
 class CommentList(generics.ListCreateAPIView):
+
+    def get_object(self,pk):
+        tweet = Tweet.objects.get(pk=pk)
+        return tweet
+
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+    def post(self,request,pk):
+        tweet = self.get_object(pk)
+        data = request.data
+        comment = Comment(
+                body=data['body'], 
+                user=request.user,
+                tweet=tweet)
+        comment.save()
+        serializer = CommentSerializer(comment, many=False)
+        return Response(serializer.data)
 
 class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()

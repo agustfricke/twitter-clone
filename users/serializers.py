@@ -21,8 +21,8 @@ class UserEditSerializer(serializers.ModelSerializer):
     email = serializers.ReadOnlyField()
     username = serializers.ReadOnlyField()
     followers =  serializers.SerializerMethodField(read_only=True)
-    i_follow = serializers.SerializerMethodField(read_only=True) #check if request.user follow the user
-    following = serializers.SerializerMethodField(read_only=True) #followers of Profile User
+    i_follow = serializers.SerializerMethodField(read_only=True) 
+    following = serializers.SerializerMethodField(read_only=True) 
 
     class Meta:
         model = User

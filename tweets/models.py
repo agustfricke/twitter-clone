@@ -21,3 +21,12 @@ class Tweet(models.Model):
         return self.liked.all().count()
 
 
+class Comment(models.Model):
+    body = models.CharField(max_length=255)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    tweet = models.ForeignKey(Tweet, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+

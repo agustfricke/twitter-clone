@@ -2,11 +2,24 @@ from rest_framework import generics, exceptions
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from . models import Tweet
+from . models import Tweet, Comment
 from users.models import User
-from . serializers import TweetSerializer, MyTweetSerializer
+from . serializers import TweetSerializer, MyTweetSerializer, CommentSerializer
 from . permissions import IsOwnerOrReadOnly
 
+
+class CommentList(generics.ListCreateAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+    permission_classes = [IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

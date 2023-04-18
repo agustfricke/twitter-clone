@@ -54,8 +54,10 @@ def retweet(request, pk):
         'count': tweet.retweeted_count
     })
 
-
-
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_likes(request, username):
+    pass
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

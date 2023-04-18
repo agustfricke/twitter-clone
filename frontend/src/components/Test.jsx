@@ -1,91 +1,31 @@
-import { useFormik } from "formik";
-import * as yup from "yup";
-import { useState } from "react";
-import { BsImage } from "react-icons/bs";
-import { useMutation, useQueryClient } from 'react-query'
-import image from "../assets/cover.png"
-import { Formik, Field, Form } from 'formik'
-import { addTweet } from "../api/apiTweets";
-import { useNavigate } from "react-router-dom";
+// THIS IS HOW YOU DO NESTED ARRAYS BITCH !!
 
-const SeeImage = ({ file }) => {
+export default function App() {
+  const people = [
+    {id: 1, name: 'Alice', pets: ['dog', 'cat']},
+    {id: 2, name: 'Bob', pets: ['turtle', 'rabbit']},
+    {id: 3, name: 'Carl', pets: ['hamster', 'parrot']},
+  ];
 
-
-  const [preview, setPreview] = useState({});
-
-  if(file) {
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
-  reader.onload = () => {
-      setPreview(reader.result)
-  };
-
-    return (
-      <div>
-        <img src={preview}  />
-      </div>
-    )
-  }
-}
-
-const Test = () => {
-
-  const nav = useNavigate()
-
-  const queryClient = useQueryClient()
-
-  const addTweetMutation = useMutation({
-    mutationFn: addTweet,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tweets']})
-    },
-    onError: (error) => {
-      console.error(error)
-    }
-  })
-
-  const genInitialValues = () => ({
-  content: "",
-  image: "", 
-});
-
-  const formik = useFormik({
-    initialValues: {genInitialValues},
-    validationSchema: yup.object({
-      image: yup.mixed().required('Image is required')
-      .test('fileSize', 'File too large', (value) => value && value.size < 1024 * 1024 )
-      .test('fileFormat', 'Unsupported Format', (value) => value && ['image/jpg', 'image/jpeg', 'image/png'].includes(value.type))
-    }),
-    onSubmit: (values, { resetForm }) => {
-      const { image, content } = values
-
-      const formData = new FormData()
-
-      try { 
-
-      formData.append('image', image)
-      formData.append('content', content)
-
-      addTweetMutation.mutate(formData)
-        resetForm({ values: genInitialValues() });
-      }catch (error) {
-        console.log(error)
-      }
-    }
-  })
   return (
-    <>
-      <form onSubmit={formik.handleSubmit} >
-        <input type="text" name="content" onChange={formik.handleChange} value={formik.values.content} />
-      <input type="file" name="image" onChange={(event) => formik.setFieldValue("image", event.currentTarget.files[0])} />
-        {formik.errors.image && (
-          <div>{formik.errors.image}</div>
-        )}
-        <button type="submit">Submit</button>
-      </form>
-        {formik.values.image && <SeeImage file={formik.values.image} />}
-    </>
-  )
-}
+    <div>
+      {people.map((person, index) => {
+        return (
+          <div key={index}>
+            <h2>Name: {person.name}</h2>
 
-export default Test
+            {person.pets.map((pet, index) => {
+              return (
+                <div key={index}>
+                  <h2>Pet: {pet}</h2>
+                </div>
+              );
+            })}
+
+            <hr />
+          </div>
+        );
+      })}
+    </div>
+  );
+}

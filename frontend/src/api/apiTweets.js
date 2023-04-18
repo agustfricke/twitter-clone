@@ -18,6 +18,11 @@ export const deleteTweet = async (id) => {
   await axios.delete(`/tweets/${id}`)
 }
 
+export const getSoloTweet = async (id) => {
+  const response = await axios.get(`/tweets/${id}/`)
+  return response.data
+}
+
 export const userTweets = async (username) => {
   const response = await axios.get(`/tweets/${username}/`)
   return response.data

@@ -26,7 +26,7 @@ class UserEditSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['name','avatar','bio',
+        fields = ['id', 'name','avatar','bio',
         'cover_image','email',
         'username','i_follow','followers',
         'following', 'date_joined'

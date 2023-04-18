@@ -14,12 +14,18 @@ import { IoMdCalendar } from "react-icons/io";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { Formik, Field, Form } from 'formik'
+import LikedTweets from "./LikedTweets";
+import Retweeted from "./Retweeted";
+import Media from "./Media";
+
 
 const UserProfile = () => {
 
   const { username } = useParams()
 
   const myUser = localStorage.getItem('username')
+
+  const [btn, setBtn] = useState(0)
 
   const [show, setShow] = useState(false)
   const [show1, setShow1] = useState(false)
@@ -68,6 +74,9 @@ const UserProfile = () => {
     queryKey: ['user', username],
     queryFn: () => getUserInfo(username),
   })
+
+
+  console.log(user)
 
 
   const { data: tweets, isLoading: loadingTweets, isError: isErrorTweets, error: errorTweets } = useQuery({
@@ -173,24 +182,32 @@ const UserProfile = () => {
 
       <div className="border-b-[1px] border-neutral-800 grid grid-cols-4 gap-4">
 
-        <button className="p-5 cursor-pointer hover:bg-neutral-900 transition">
+        <button onClick={() => setBtn(0)} className="p-5 cursor-pointer hover:bg-neutral-900 transition">
           Tweets
         </button>
 
-        <button className="p-5 cursor-pointer hover:bg-neutral-900 transition">
+        <button onClick={() => setBtn(1)} className="p-5 cursor-pointer hover:bg-neutral-900 transition">
           Replies
         </button>
 
-        <button className="p-5 cursor-pointer hover:bg-neutral-900 transition">
+        <button onClick={() => setBtn(2)} className="p-5 cursor-pointer hover:bg-neutral-900 transition">
           Media
         </button>
 
-        <button className="p-5 cursor-pointer hover:bg-neutral-900 transition">
+        <button onClick={() => setBtn(3)} className="p-5 cursor-pointer hover:bg-neutral-900 transition">
           Likes
         </button>
 
       </div>
 
+      {btn === 3 && <LikedTweets user_id={user.id}/>}
+
+      {btn === 2 && <Media tweets={tweets}/>}
+
+      {btn === 1 && <Retweeted user_id={user.id}/>}
+
+      {btn === 0 && 
+        <>
         {tweets.map(t => (
       <div className="border-b-[1px] border-neutral-800 p-5 cursor-pointer hover:bg-neutral-900 transition">
         <div className="flex flex-row items-start gap-3">
@@ -290,7 +307,9 @@ const UserProfile = () => {
       </div>
 
         ))}
-    </>
+        </>
+        }
+        </>
   );
 };
 

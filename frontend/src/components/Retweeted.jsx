@@ -5,9 +5,11 @@ import image from "../assets/cover.png"
 import { Link } from 'react-router-dom';
 import { useMutation, useQueryClient, useQuery} from 'react-query'
 
-const Feed = () => {
+//  SON DE EL USUARIO QUE ESTA AUTENTICADO 
+//  COMO HAGO PARA MOSTRAR LOS DEL USUARIO DE LA URL ????
 
-  const queryClient = useQueryClient()
+const Retweeted = ({ user_id }) => {
+  
 
   const { data: tweets, isLoading, isError, error } = useQuery({
 
@@ -15,63 +17,18 @@ const Feed = () => {
     queryKey: ['tweets']
   })
 
-  console.log(tweets)
-
-  const retweetMutation = useMutation({
-    mutationFn: retweet,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tweets']})
-    },
-    onError: (error) => {
-      console.error(error)
-    }
-  })
-
-  const handleRetweet = (id) => {
-    retweetMutation.mutate(id)
-  }
-
-  const likeTweetMutation = useMutation({
-    mutationFn: likeTweet,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tweets']})
-    },
-    onError: (error) => {
-      console.error(error)
-    }
-  })
-
-
-  const handleLike = (id) => {
-    likeTweetMutation.mutate(id)
-  }
-
-
   if (isLoading) return <div>Loading</div>
   if (isError) return <div>Error: {error.message}</div>
 
   return (
     <>
-
-
-      <div className="border-b-[1px] border-neutral-800 p-5">
-        <div className="flex flex-row items-start gap-3">
-
-          <div>
-            <div className="flex flex-row items-center gap-2">
-              <p className="text-white font-semibold text-xl">
-                Home
-              </p>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <Add/>
-
       {tweets.map(t => (
+        <>
+            {t.retweeted.map((id, index) => (
+            <>
+                  <div key={index}>
 
+                {user_id  === id && 
 
 
         <div key={t.id} className="border-b-[1px] border-neutral-800 p-5 cursor-pointer hover:bg-neutral-900 transition">
@@ -140,11 +97,15 @@ const Feed = () => {
 
           </div>
         </div>
-
+              }
+                  </div>
+                </>
+              ))}
+              
+</>
       ))}
-
       </>
   )
 }
 
-export default Feed
+export default Retweeted

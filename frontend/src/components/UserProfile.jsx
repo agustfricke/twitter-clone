@@ -75,9 +75,7 @@ const UserProfile = () => {
     queryFn: () => getUserInfo(username),
   })
 
-
   console.log(user)
-
 
   const { data: tweets, isLoading: loadingTweets, isError: isErrorTweets, error: errorTweets } = useQuery({
     queryFn: () => userTweets(username),
@@ -187,7 +185,7 @@ const UserProfile = () => {
         </button>
 
         <button onClick={() => setBtn(1)} className="p-5 cursor-pointer hover:bg-neutral-900 transition">
-          Replies
+        Retweets
         </button>
 
         <button onClick={() => setBtn(2)} className="p-5 cursor-pointer hover:bg-neutral-900 transition">

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery, useQueryClient, useMutation } from "react-query";
-import { getUserInfo, updateProfile } from "../api/apiUsers";
+import { getUserInfo, updateProfile, follow } from "../api/apiUsers";
 import { deleteTweet, userTweets, editTweet } from "../api/apiTweets";
 import {
   AiFillHeart,
@@ -32,6 +32,19 @@ const UserProfile = () => {
 
   const queryClient = useQueryClient()
 
+  const followUserMutation = useMutation({
+    mutationFn: follow,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user', username]})
+      setShow1(false)
+      toast.success('User updated successfully')
+    },
+    onError: (error) => {
+      setShow1(false)
+      toast.error(error)
+    }
+  })
+
   const updateProfileMutation = useMutation({
     mutationFn: updateProfile,
     onSuccess: () => {
@@ -59,7 +72,7 @@ const UserProfile = () => {
     }
   })
 
-  const deleteTaskMutation = useMutation({
+  const deleteTweetMutation = useMutation({
     mutationFn: deleteTweet,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tweets']})
@@ -82,7 +95,6 @@ const UserProfile = () => {
     queryKey: ['user_tweets']
   })
 
-  console.log(tweets)
 
   if(loadingTweets) return <div>Loading</div>
   if(isErrorTweets) return <div>Error: {errorTweets.message}</div>
@@ -112,7 +124,7 @@ const UserProfile = () => {
               <span
                 className="text-neutral-500 hidden md:block"
               >
-                233 Tweets
+                {tweets.length} Tweets
               </span>
             </div>
             
@@ -129,9 +141,37 @@ const UserProfile = () => {
         className="w-40 h-40 ml-3 object-cover -mt-20 shadow-2xl rounded-full" />
 
           <div>
+
+                {myUser === username ? (
+
         <button onClick={() => setShow1(true)} className="bg-sky-500 mr-7 text-white font-semibold rounded-full px-7 py-3 mt-3 ml-3 hover:bg-sky-600 transition">
           Edit 
         </button>
+
+          ) : (
+              <>
+
+              {user.i_follow ? (
+
+            <button 
+                  onClick={() => followUserMutation.mutate(username)}
+                    className="bg-slate-200 mr-7 text-black font-semibold rounded-full px-7 py-3 mt-3 ml-3 hover:bg-slate-400 transition">
+              Unfollow
+            </button>
+
+              ) : (
+
+            <button
+                  onClick={() => followUserMutation.mutate(username)}
+                      className="bg-slate-200 mr-7 text-black font-semibold rounded-full px-7 py-3 mt-3 ml-3 hover:bg-slate-400 transition">
+              Follow
+            </button>
+
+              )}
+</>
+          
+          )}
+
           </div>
 
       {show1 && (
@@ -174,6 +214,10 @@ const UserProfile = () => {
           <IoMdCalendar className="mt-1 mb-3" size={20} />
           Joined {' '}
           {new Date(user.date_joined).toDateString().slice(4)}
+        </div>
+
+        <div className="flex gap-3 w-full p-2 text-neutral-500 ">
+          <span className="text-white">{user.followers}</span> Followers {' '} <span className="text-white">{user.following}</span> Following
         </div>
 
       </div>
@@ -257,7 +301,7 @@ const UserProfile = () => {
                 {myUser === username && (
                   <>
               <div 
-                  onClick={() => deleteTaskMutation.mutate(t.id)}
+                  onClick={() => deleteTweetMutation.mutate(t.id)}
                   className="flex flex-row items-center text-neutral-500 gap-2 cursor-pointer transition hover:text-red-500">
                 <BsFillTrashFill  size={20} />
               </div>

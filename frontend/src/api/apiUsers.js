@@ -4,6 +4,10 @@ import jwt_decode from "jwt-decode"
 
 const axios = api()
 
+export const follow = async (username) => {
+  await axios.post(`/users/follow/${username}/`)
+}
+
 export const updateProfile = async (data) => {
   await axios.put(`/users/users/${data.username}/`, data)
 }

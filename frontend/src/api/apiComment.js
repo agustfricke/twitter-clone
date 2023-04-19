@@ -15,8 +15,8 @@ export const deleteComment = async (id) => {
   await axios.delete(`/tweets/comment/${id}/`)
 }
 
-export const editComment = async (id, data) => {
-  await axios.put(`/tweets/comment/${id}/`, data)
+export const editComment = async (data) => {
+  await axios.put(`/tweets/comment/${data.id}/`, data)
 }
 
 

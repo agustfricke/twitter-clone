@@ -4,9 +4,15 @@ from users.serializers import UserSerializer
 
 class CommentSerializer(serializers.ModelSerializer):
 
+    avatar = serializers.SerializerMethodField(source='user.avatar.url')
+    user = serializers.ReadOnlyField(source='user.username')
+
     class Meta:
         model = Comment
         fields = '__all__'
+
+    def get_avatar(self, obj):
+        return obj.user.avatar.url
 
 
 class MyTweetSerializer(serializers.ModelSerializer):

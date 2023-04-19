@@ -61,7 +61,7 @@ const AddComment = ({ tweetId }) => {
 
         </div>
 
-        <div className="flex justify-end">
+        <div className="flex justify-end mt-4">
 
           <button type='submit' className="bg-sky-400 hover:bg-sky-500 p-2 px-5 rounded-full text-white font-bold">
             Tweet

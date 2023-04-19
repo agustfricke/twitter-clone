@@ -6,6 +6,7 @@ from . models import Tweet, Comment
 from users.models import User
 from . serializers import TweetSerializer, MyTweetSerializer, CommentSerializer
 from . permissions import IsOwnerOrReadOnly
+from backend.pagination import CustomPagination
 
 class CommentList(generics.ListCreateAPIView):
 
@@ -15,6 +16,7 @@ class CommentList(generics.ListCreateAPIView):
 
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+    pagination_class = CustomPagination
 
     def post(self,request,pk):
         tweet = self.get_object(pk)
@@ -77,6 +79,7 @@ def get_user_tweets(request, username):
 class TweetList(generics.ListCreateAPIView):
     queryset = Tweet.objects.all()
     serializer_class = TweetSerializer
+    pagination_class = CustomPagination
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -87,6 +90,4 @@ class TweetDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TweetSerializer
 
     permission_classes = [IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
-
-
 

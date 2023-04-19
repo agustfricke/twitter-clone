@@ -9,11 +9,23 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 import random
 from rest_framework.views import APIView
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 
 
 from . models import User
 from . serializers import UserSerializer, MyTokenObtainPairSerializer, MyUserSerializer, UserEditSerializer
 from . permissions import IsUserOrReadOnly
+
+@api_view(['GET'])
+def search(request):
+    query = request.query_params.get('keysearch')
+    if query == None:
+        query = ''
+    users = User.objects.filter(username__icontains=query)
+    serializer = UserSerializer(users, many=True)
+    return Response(serializer.data)
+
 
 class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()

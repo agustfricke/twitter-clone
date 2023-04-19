@@ -8,4 +8,5 @@ urlpatterns = [
     path('register/', views.register),
     path('users/<str:username>/', views.UserDetailView.as_view()),
     path('follow/<str:username>/', views.follow),
+    path('reco/', views.recommend_user),
 ]

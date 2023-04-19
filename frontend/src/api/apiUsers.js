@@ -4,6 +4,11 @@ import jwt_decode from "jwt-decode"
 
 const axios = api()
 
+export const getRandom = async () => {
+  const response = await axios.get('/users/reco/')
+  return response.data
+}
+
 export const follow = async (username) => {
   await axios.post(`/users/follow/${username}/`)
 }

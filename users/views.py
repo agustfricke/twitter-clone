@@ -2,10 +2,14 @@ from rest_framework import serializers, status
 from rest_framework import generics
 from django.contrib.auth.hashers import make_password
 from rest_framework.response import Response
+from django.http import HttpResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+import random
+from rest_framework.views import APIView
+
 
 from . models import User
 from . serializers import UserSerializer, MyTokenObtainPairSerializer, MyUserSerializer, UserEditSerializer
@@ -50,6 +54,12 @@ def follow(request, username):
         myprofile.following.add(username)
         return Response({'detail': 'User followed'}, status=status.HTTP_200_OK)
 
+@api_view(['GET'])
+def recommend_user(request):
+    users = User.objects.exclude(username=request.user.username)
+    users = users.exclude(id__in = request.user.following.all())[:5]
+    serializer = UserEditSerializer(users,many=True,context={'request':request})
+    return Response(serializer.data)
 
 
 

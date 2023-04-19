@@ -68,11 +68,6 @@ def retweet(request, pk):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def get_likes(request, username):
-    pass
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
 def get_user_tweets(request, username):
     user = User.objects.get(username=username)
     tweets = Tweet.objects.filter(user=user)

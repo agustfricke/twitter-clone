@@ -1,17 +1,15 @@
 import { AiFillHeart, AiOutlineRetweet, AiOutlineMessage } from 'react-icons/ai';
 import { getSoloTweet } from "../api/apiTweets"
 import { Link, useParams } from 'react-router-dom';
-import { useMutation, useQueryClient, useQuery} from 'react-query'
+import { useQuery} from 'react-query'
+import AddComment from './AddComment';
+import Comments from './Comments';
 
 const SoloTweet = () => {
 
   const { id } = useParams()
 
-  const avatar = localStorage.getItem('avatar')
-
   const { data: tweet , isLoading, isError, error } = useQuery(['soloTweet', id], () => getSoloTweet(id))
-
-  console.log(tweet)
 
   if (isLoading) return <div>Loading</div>
   if (isError) return <div>Error: {error.message}</div>
@@ -85,39 +83,10 @@ const SoloTweet = () => {
           </div>
         </div>
 
-        
+        <AddComment tweetId={tweet.id}/>
 
+        <Comments tweetId={tweet.id}/>
 
-
-    <div
-      className="
-      border-b-[1px] 
-      border-neutral-800 
-      p-5 
-      ">
-      
-      <form >
-      <div className='flex gap-3 w-full border-b-[1px] 
-        border-neutral-800 p-3'>
-
-            <img src={`http://127.0.0.1:8000/${avatar}`} className='h-14 w-14 rounded-full ' />
-        
-          <input 
-type="text" name="content" 
-        className='bg-transparent grow outline-none ' placeholder="Tweet your reply" />
-
-
-      </div>
-          <div className="flex justify-end mt-4">
-
-        <button type='submit' className="bg-sky-400 hover:bg-sky-500 p-2 px-5 rounded-full text-white font-bold">
-          Tweet
-        </button>
-          </div>
-
-</form>
-
-    </div>
         </>
   )
 }

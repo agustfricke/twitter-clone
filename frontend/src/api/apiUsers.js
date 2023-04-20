@@ -4,7 +4,7 @@ import jwt_decode from "jwt-decode"
 
 const axios = api()
 
-export const search = async (query) => {
+export const q = async (query) => {
   const response = await axios.get(`/users/search/?query=${query}`)
   return response.data
 }

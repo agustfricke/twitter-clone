@@ -148,6 +148,7 @@ AUTH_USER_MODEL = 'users.User'
 
 CORS_ALLOWED_ORIGINS = [
         'http://localhost:5173',
+        'http://localhost:3000'
     ]
 
 SIMPLE_JWT = {
@@ -185,8 +186,14 @@ SIMPLE_JWT = {
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-    'DEFAULT_PAGINATION_CLASS': 'backend.pagination.CustomPagination',
-    'PAGE_SIZE': 10
+    )
 }
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework_simplejwt.authentication.JWTAuthentication',
+#     ),
+#     'DEFAULT_PAGINATION_CLASS': 'backend.pagination.CustomPagination',
+#     'PAGE_SIZE': 5
+# }
 

@@ -17,14 +17,15 @@ from . models import User
 from . serializers import UserSerializer, MyTokenObtainPairSerializer, MyUserSerializer, UserEditSerializer
 from . permissions import IsUserOrReadOnly
 
+
 @api_view(['GET'])
 def search(request):
-    query = request.query_params.get('keysearch')
+    query = request.query_params.get('query')
     if query == None:
         query = ''
     users = User.objects.filter(username__icontains=query)
     serializer = UserSerializer(users, many=True)
-    return Response(serializer.data)
+    return Response({ 'products': serializer.data })
 
 
 class UserDetailView(generics.RetrieveUpdateDestroyAPIView):

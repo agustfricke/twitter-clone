@@ -36,3 +36,5 @@ export const getTweets = async () => {
   const response = await axios.get('/tweets/')
   return response.data
 }
+
+

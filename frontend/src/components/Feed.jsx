@@ -1,7 +1,6 @@
 import { AiFillHeart, AiOutlineRetweet, AiOutlineMessage } from 'react-icons/ai';
 import { getTweets, likeTweet, retweet } from "../api/apiTweets"
 import Add from './Add';
-import image from "../assets/cover.png"
 import { Link } from 'react-router-dom';
 import { useMutation, useQueryClient, useQuery} from 'react-query'
 
@@ -10,7 +9,6 @@ const Feed = () => {
   const queryClient = useQueryClient()
 
   const { data: tweets, isLoading, isError, error } = useQuery({
-
     queryFn: getTweets,
     queryKey: ['tweets']
   })
@@ -52,8 +50,6 @@ const Feed = () => {
 
   return (
     <>
-
-
       <div className="border-b-[1px] border-neutral-800 p-5">
         <div className="flex flex-row items-start gap-3">
 
@@ -70,7 +66,8 @@ const Feed = () => {
 
       <Add/>
 
-      {tweets.map(t => (
+      {tweets.data.map(t => (
+
 
 
 

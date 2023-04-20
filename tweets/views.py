@@ -2,11 +2,21 @@ from rest_framework import generics, exceptions
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from . models import Tweet, Comment
 from users.models import User
 from . serializers import TweetSerializer, MyTweetSerializer, CommentSerializer
 from . permissions import IsOwnerOrReadOnly
 from backend.pagination import CustomPagination
+
+class TweetList(generics.ListCreateAPIView):
+    queryset = Tweet.objects.all()
+    serializer_class = TweetSerializer
+    pagination_class = CustomPagination
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
 
 class CommentList(generics.ListCreateAPIView):
 
@@ -76,13 +86,6 @@ def get_user_tweets(request, username):
     serializer = MyTweetSerializer(tweets, many=True)
     return Response(serializer.data)
 
-class TweetList(generics.ListCreateAPIView):
-    queryset = Tweet.objects.all()
-    serializer_class = TweetSerializer
-    pagination_class = CustomPagination
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
 
 
 class TweetDetail(generics.RetrieveUpdateDestroyAPIView):

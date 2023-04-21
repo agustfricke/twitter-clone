@@ -2,18 +2,24 @@ import { AiFillHeart, AiOutlineRetweet, AiOutlineMessage } from 'react-icons/ai'
 import { getTweets, likeTweet, retweet } from "../api/apiTweets"
 import Add from './Add';
 import { Link } from 'react-router-dom';
-import { useMutation, useQueryClient, useQuery} from 'react-query'
+import { useMutation, useQueryClient, useInfiniteQuery,  useQuery} from 'react-query'
+import { useInView } from 'react-intersection-observer'
+import { useEffect } from 'react';
 
 const Feed = () => {
 
+  const { ref, inView } = useInView()
+
   const queryClient = useQueryClient()
 
-  const { data: tweets, isLoading, isError, error } = useQuery({
-    queryFn: getTweets,
-    queryKey: ['tweets']
-  })
+  const { data,isLoading, isError, error, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteQuery(
+    'tweets',
+    getTweets,
+    {
+      getNextPageParam: lastPage => lastPage.meta.next,
+    }
+  );
 
-  console.log(tweets)
 
   const retweetMutation = useMutation({
     mutationFn: retweet,
@@ -44,6 +50,11 @@ const Feed = () => {
     likeTweetMutation.mutate(id)
   }
 
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage()
+    }
+  }, [inView])
 
   if (isLoading) return <div>Loading</div>
   if (isError) return <div>Error: {error.message}</div>
@@ -66,10 +77,11 @@ const Feed = () => {
 
       <Add/>
 
-      {tweets.data.map(t => (
+      {data.pages.map(page => (
 
+        <div key={page.meta.page}>
 
-
+          {page.data.map(t => (
 
         <Link to={`/tweet/${t.id}`}>
         <div key={t.id} className="border-b-[1px] border-neutral-800 p-5 cursor-pointer hover:bg-neutral-900 transition">
@@ -140,7 +152,20 @@ const Feed = () => {
         </div>
       </Link>
 
-      ))}
+
+
+          ))}
+
+        </div>
+
+          ))}
+
+            <div
+              ref={ref}
+            >
+              {isFetchingNextPage && <p>Cargando mas cabron!!!!</p>}
+              {!hasNextPage && <p>Nada mas cabron!!!!</p>}
+            </div>
 
       </>
   )

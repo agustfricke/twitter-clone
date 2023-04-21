@@ -25,7 +25,7 @@ def search(request):
         query = ''
     users = User.objects.filter(username__icontains=query)
     serializer = UserSerializer(users, many=True)
-    return Response({ 'products': serializer.data })
+    return Response({ 'users': serializer.data })
 
 
 class UserDetailView(generics.RetrieveUpdateDestroyAPIView):

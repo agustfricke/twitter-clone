@@ -32,9 +32,8 @@ export const addTweet = async (data) => {
   await axios.post('/tweets/', data)
 }
 
-export const getTweets = async () => {
-  const response = await axios.get('/tweets/')
+export const getTweets = async ({ pageParam = 1 }) => {
+  const response = await axios.get(`http://localhost:8000/tweets/?page=${pageParam}&pages=2`)
   return response.data
 }
-
 

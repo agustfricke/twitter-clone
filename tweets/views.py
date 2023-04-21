@@ -26,7 +26,6 @@ class CommentList(generics.ListCreateAPIView):
 
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    pagination_class = CustomPagination
 
     def post(self,request,pk):
         tweet = self.get_object(pk)

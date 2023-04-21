@@ -1,17 +1,10 @@
-from rest_framework import serializers, status
+from rest_framework import status
 from rest_framework import generics
 from django.contrib.auth.hashers import make_password
 from rest_framework.response import Response
-from django.http import HttpResponse
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
-import random
-from rest_framework.views import APIView
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters
-
 
 from . models import User
 from . serializers import UserSerializer, MyTokenObtainPairSerializer, MyUserSerializer, UserEditSerializer

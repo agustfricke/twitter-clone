@@ -2,8 +2,7 @@ import { useState } from "react";
 import { q } from "../api/apiUsers";
 import { FaSearch } from "react-icons/fa";
 import WhoFollow from "./WhoFollow";
-import { useMutation, useQueryClient, useQuery} from 'react-query'
-import SearchBox from "./TestSearch";
+import { useQuery} from 'react-query'
 
 function SearchResult({isLoading, data})
 {

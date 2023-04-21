@@ -44,25 +44,12 @@ class UserEditSerializer(serializers.ModelSerializer):
         return obj.following.count()
 
 class UserSerializer(serializers.ModelSerializer):
-    # email = serializers.ReadOnlyField()
     username = serializers.ReadOnlyField()
-    # i_follow = serializers.SerializerMethodField(read_only=True)
-    # followers =  serializers.SerializerMethodField(read_only=True)
-    # following = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = User
         fields = ['id','name','username',]
 
-    # def get_followers(self,obj):
-    #     return obj.followed.count()
-    #     
-    # def get_following(self,obj):
-    #     return obj.following.count()
-    #     
-    # def get_i_follow(self,obj):
-    #     current_user = self.context.get('request').user
-    #     return True if current_user in obj.followed.all() else False
 
 
 

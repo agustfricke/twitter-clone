@@ -17,29 +17,9 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class MyTweetSerializer(serializers.ModelSerializer):
 
-    user = serializers.ReadOnlyField(source='user.username')
-    avatar = serializers.SerializerMethodField(source='user.avatar.url')
-
-    likes_count = serializers.SerializerMethodField(read_only=True)
-    retweeted_count  = serializers.SerializerMethodField(read_only=True)
-
-    comment_count = serializers.SerializerMethodField(read_only=True)
-
     class Meta:
         model = Tweet
         fields = '__all__'
-
-    def get_comment_count(self,obj):
-        return obj.parent_tweet.all().count()
-
-    def get_avatar(self, obj):
-        return obj.user.avatar.url
-
-    def get_likes_count(self, obj):
-        return obj.liked.all().count()
-
-    def get_retweeted_count(self, obj):
-        return obj.retweeted.all().count()
 
 
 class TweetSerializer(serializers.ModelSerializer):

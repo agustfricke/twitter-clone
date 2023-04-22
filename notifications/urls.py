@@ -3,6 +3,6 @@ from . import  views
 
 urlpatterns = [
     path('noti/', views.noti),
-    path('noti/<int:pk>', views.NotiDelete.as_view()),
+    path('noti/<int:pk>', views.get),
 ]
 

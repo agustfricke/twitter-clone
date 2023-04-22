@@ -9,6 +9,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticate
 from . models import User
 from . serializers import UserSerializer, MyTokenObtainPairSerializer, MyUserSerializer, UserEditSerializer
 from . permissions import IsUserOrReadOnly
+from notifications.models import Notification
 
 
 @api_view(['GET'])
@@ -57,6 +58,7 @@ def follow(request, username):
         myprofile.following.remove(username)
         return Response({'detail': 'User unfollowed'}, status=status.HTTP_200_OK)
     else:
+        Notification.objects.get_or_create(notification_type='F', to_user=username, from_user=myprofile)
         myprofile.following.add(username)
         return Response({'detail': 'User followed'}, status=status.HTTP_200_OK)
 

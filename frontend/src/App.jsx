@@ -7,9 +7,9 @@ import Register from './components/Register'
 import UserProfile from './components/UserProfile'
 import SoloTweet from './components/SoloTweet'
 import Chat from './components/Chat'
+import Noti from './components/Noti'
 
 function App() {
-	 
 
   return (
     <Router>
@@ -22,6 +22,7 @@ function App() {
             <Route path=':username' element={<UserProfile/>}/>
             <Route path='/tweet/:id' element={<SoloTweet/>}/>
             <Route path='/chat/:user' element={<Chat/>}/>
+            <Route path='/noti' element={<Noti/>}/>
           </Route>
         </Route>
 

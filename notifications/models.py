@@ -13,7 +13,7 @@ class Notification(models.Model):
     notification_type = models.CharField(max_length=2, choices=NOTIFICATION_TYPE, default=None)
     from_user = models.ForeignKey(User,related_name='noti_from', on_delete=models.CASCADE)
     to_user = models.ForeignKey(User,related_name='noti_to', on_delete=models.CASCADE)
-    tweet = models.ForeignKey(Tweet, on_delete=models.CASCADE)
+    tweet = models.ForeignKey(Tweet, on_delete=models.CASCADE, null=True)
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)

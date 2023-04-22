@@ -2,6 +2,8 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+
+from notifications.models import Notification
 from . models import Tweet, Comment
 from users.models import User
 from . serializers import TweetSerializer, MyTweetSerializer, CommentSerializer
@@ -12,20 +14,16 @@ class TweetList(generics.ListCreateAPIView):
     queryset = Tweet.objects.all()
     serializer_class = TweetSerializer
     pagination_class = CustomPagination
-
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
 
 class CommentList(generics.ListCreateAPIView):
-
     def get_object(self,pk):
         tweet = Tweet.objects.get(pk=pk)
         return tweet
-
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-
     def post(self,request,pk):
         tweet = self.get_object(pk)
         data = request.data
@@ -34,27 +32,28 @@ class CommentList(generics.ListCreateAPIView):
                 user=request.user,
                 tweet=tweet)
         comment.save()
+        if request.user != tweet.user:
+            Notification.objects.get_or_create(notification_type='C', tweet=tweet, to_user=tweet.user, from_user=request.user)
         serializer = CommentSerializer(comment, many=False)
         return Response(serializer.data)
 
 class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-
     permission_classes = [IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def liked(request, pk):
-
     tweet = Tweet.objects.get(pk=pk)
-
     if request.user in tweet.liked.all():
         liked = False
         tweet.liked.remove(request.user)
     else:
         liked = True
         tweet.liked.add(request.user)
+        if request.user != tweet.user:
+            Notification.objects.get_or_create(notification_type='L', tweet=tweet, to_user=tweet.user, from_user=request.user)
     return Response({
         'liked': liked,
         'count': tweet.likes_count
@@ -71,6 +70,8 @@ def retweet(request, pk):
     else:
         retweeted = True
         tweet.retweeted.add(request.user)
+        if request.user != tweet.user:
+            Notification.objects.get_or_create(notification_type='RT', tweet=tweet, to_user=tweet.user, from_user=request.user)
     return Response({
         'retweeted': retweeted,
         'count': tweet.retweeted_count

@@ -1,7 +1,6 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
-
 from . models import Chat
 
 class PersonalChatConsumer(AsyncWebsocketConsumer):
@@ -58,4 +57,4 @@ class PersonalChatConsumer(AsyncWebsocketConsumer):
     @database_sync_to_async
     def save_message(self, username, canal, message):
         Chat.objects.create(
-            sender=username, msj=message, canal=canal)
+            username=username, message=message, canal=canal)

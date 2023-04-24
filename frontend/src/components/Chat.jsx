@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import jwt_decode from "jwt-decode"
 import useWebSocket from "react-use-websocket";
+import { getChat } from "../api/apiChat";
+import { useQuery} from 'react-query'
 
 const Chat = () => {
 
@@ -9,9 +11,10 @@ const Chat = () => {
   const token_verif = jwt_decode(localStorage.getItem('access'))
   const me = token_verif.username
 
+  const { data: canal, isLoading, isError, error } = useQuery(['canal', user], () => getChat(user))
+
   const [messageHistory, setMessageHistory] = useState([]);
   const [message, setMessage] = useState("");
-
 
 
   const { sendJsonMessage } = useWebSocket('ws://127.0.1:8000/ws/' + user + '/' + me + '/', {
@@ -35,7 +38,7 @@ const Chat = () => {
   }
 });
 
-  console.log(me)
+
   function handleChangeMessage(e) {
     setMessage(e.target.value);
   }
@@ -51,8 +54,15 @@ const Chat = () => {
 
 
 
+  if (isLoading) return <div>Loading</div>
+  if (isError) return <div>Error: {error.message}</div>
+
+  const chat = ([...canal, ...messageHistory])
+
+  console.log(chat)
+
   return (
-    <div className="flex justify-center">
+<div className="flex justify-center">
 
       <div className='flex justify-center mt-8'>
         <div class="max-w-2xl border rounded">
@@ -60,7 +70,7 @@ const Chat = () => {
             <div class="relative w-full p-6 overflow-y-auto h-[30rem]">
               <ul class="space-y-2">
 
-                {messageHistory.map((message) => (
+                {chat.map((message) => (
 
                 <>
 

@@ -9,20 +9,26 @@ from .serializers import NotificationSerializer
 @permission_classes([IsAuthenticated])
 def noti(request):
     notify_list = Notification.objects.filter(to_user=request.user)
-    noti_count = Notification.objects.filter(to_user=request.user, is_read=False).count()
-    if noti_count == 0:
-        noti_count = None  
     serializer = NotificationSerializer(notify_list, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def get(request):
+def no_l(request):
+    noti_count = Notification.objects.filter(to_user=request.user,is_read=False)
+    if noti_count == 0:
+        noti_count  = None  
+    serializer = NotificationSerializer(noti_count, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def leer(request):
     notify_list = Notification.objects.filter(to_user=request.user, is_read=False)
     for i in notify_list:
         i.is_read = True
         i.save()
-    return Response(notify_list)
-
+    return Response({'message': 'Notificaciones leidas'})
 
 

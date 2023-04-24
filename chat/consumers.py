@@ -9,6 +9,12 @@ class PersonalChatConsumer(AsyncWebsocketConsumer):
         self.my_user = self.scope['url_route']['kwargs']['my_username']
         self.other_username = self.scope['url_route']['kwargs']['username']
         self.room_name = f'{self.my_user}-{self.other_username}'
+
+        if self.my_user > self.other_username:
+            self.room_name = f'{self.my_user}-{self.other_username}'
+        else :
+            self.room_name = f'{self.other_username}-{self.my_user}'
+
         self.room_group_name = 'chat_%s' % self.room_name
         await self.channel_layer.group_add(
             self.room_group_name,
@@ -37,12 +43,13 @@ class PersonalChatConsumer(AsyncWebsocketConsumer):
         username = event['username']
 
         await self.send(text_data=json.dumps({
+            'type': 'chat_message_echo',
             'message': message,
             'username': username
         }))
         print('message', message, 'username', username)
 
-    async def disconnect(self):
+    async def disconnect(self, code):
         self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name

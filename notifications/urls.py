@@ -3,6 +3,7 @@ from . import  views
 
 urlpatterns = [
     path('noti/', views.noti),
-    path('noti/<int:pk>', views.get),
+    path('leer/', views.leer),
+    path('no_l/', views.no_l),
 ]
 

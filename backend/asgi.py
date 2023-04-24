@@ -12,7 +12,7 @@ application = get_asgi_application()
 application = ProtocolTypeRouter({
     'websocket': (
         URLRouter([
-            path('ws/<str:username>/<str:my_username>/', PersonalChatConsumer.as_asgi())
+            path('ws/<str:username>/<str:my_username>/', PersonalChatConsumer.as_asgi()),
         ])
     )
 })

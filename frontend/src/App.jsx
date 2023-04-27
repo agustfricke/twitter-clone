@@ -22,7 +22,7 @@ function App() {
             <Route path=':username' element={<UserProfile/>}/>
             <Route path='/tweet/:id' element={<SoloTweet/>}/>
             <Route path='/chat/:user' element={<Chat/>}/>
-            <Route path='/noti' element={<Noti/>}/>
+            <Route path='/notification' element={<Noti/>}/>
           </Route>
         </Route>
 

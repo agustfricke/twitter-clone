@@ -1,4 +1,4 @@
-import { useMutation } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 import { login } from '../api/apiUsers'
 import { Formik, Field, Form } from 'formik'
 import { BsTwitter } from "react-icons/bs";
@@ -7,10 +7,12 @@ import { Link , useNavigate } from 'react-router-dom';
 const LoginPage = () => {
 
   const nav = useNavigate()
+  const queryClient = useQueryClient()
 
   const loginMutation = useMutation({
     mutationFn: login,
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tweets']})
       nav('/')
     }, 
     onError: (error) => {
@@ -38,7 +40,7 @@ const LoginPage = () => {
                 password: '',
               }}
               onSubmit={(values) => {
-                loginMutation.mutate({ ...values })
+                loginMutation.mutate(values)
               }}
             >
               <Form>
@@ -74,7 +76,7 @@ const LoginPage = () => {
 
             <div className="flex items-center justify-between">
               <div className="text-sm">
-                <Link to={'/register'}>
+                <Link to={'/auth/register'}>
                   Don't have an account?
                   <span className='hover:text-sky-500 ml-2 transition-colors'>
                     Sign up here!

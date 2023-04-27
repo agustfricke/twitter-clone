@@ -8,7 +8,6 @@ import UserProfile from './components/UserProfile'
 import SoloTweet from './components/SoloTweet'
 import Chat from './components/Chat'
 import Noti from './components/Noti'
-import ChatT from './components/ChatT'
 
 function App() {
 

@@ -2,7 +2,7 @@ import { AiFillHeart, AiOutlineRetweet, AiOutlineMessage } from 'react-icons/ai'
 import { getTweets, likeTweet, retweet } from "../api/apiTweets"
 import Add from './Add';
 import { Link } from 'react-router-dom';
-import { useMutation, useQueryClient, useInfiniteQuery,  useQuery} from 'react-query'
+import { useMutation, useQueryClient, useInfiniteQuery } from 'react-query'
 import { useInView } from 'react-intersection-observer'
 import { useEffect } from 'react';
 

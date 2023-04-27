@@ -1,17 +1,12 @@
 import { BsImage } from "react-icons/bs";
 import { useMutation, useQueryClient } from 'react-query'
-import image from "../assets/cover.png"
-import { Formik, Field, Form } from 'formik'
 import { addTweet } from "../api/apiTweets";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import * as yup from "yup";
 import { useState } from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
 
 const Add = () => {
-
-  const nav = useNavigate()
 
   const avatar = localStorage.getItem('avatar')
 

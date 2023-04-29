@@ -7,19 +7,24 @@ export const ax = axios.create({
   baseURL: "http://127.0.0.1:8000/",
 })
 
+
 export const api = () => {
-
-let userInfo = localStorage.getItem('access') 
-
-  console.log(userInfo)
+  
 
   const axiosInstance = axios.create({
     baseURL: 'http://127.0.0.1:8000',
     'Content-Type': 'multipart/form-data' ,
-    headers: { Authorization: `Bearer ${userInfo}` }
   })
 
   axiosInstance.interceptors.request.use(async req => {
+
+let userInfo = localStorage.getItem('access') 
+
+  console.log('Token', userInfo)
+
+  req.headers = {
+    Authorization: `Bearer ${userInfo}`
+  }
 
     if(!userInfo) {
         let userInfo = localStorage.getItem('access') 

@@ -20,7 +20,6 @@ const Feed = () => {
     }
   );
 
-
   const retweetMutation = useMutation({
     mutationFn: retweet,
     onSuccess: () => {
@@ -44,7 +43,6 @@ const Feed = () => {
       console.error(error)
     }
   })
-
 
   const handleLike = (id) => {
     likeTweetMutation.mutate(id)
@@ -160,12 +158,15 @@ const Feed = () => {
 
           ))}
 
-            <div
-              ref={ref}
-            >
-              {isFetchingNextPage && <p>Cargando mas cabron!!!!</p>}
-              {!hasNextPage && <p>Nada mas cabron!!!!</p>}
-            </div>
+         {isLoading && <p>Loading...</p>}
+      <p>{data.pages.length}</p>
+      {!isLoading && data.pages.length === 0 && <p>No results</p>}
+      {!isLoading && data.pages.length > 0 && hasNextPage && (
+        <button ref={ref} onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
+          {isLoading || isFetchingNextPage ? "Loading..." : "Load more"}
+        </button>
+      )}
+
 
       </>
   )

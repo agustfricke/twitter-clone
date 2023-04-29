@@ -1,6 +1,7 @@
 import { api } from "./useAxios"
 
 const axios = api()
+const controller = new AbortController();
 
 export const retweet = async (id) => {
   await axios.post(`/tweets/retweet/${id}/`)

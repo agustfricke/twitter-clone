@@ -41,7 +41,7 @@ const SideBar = () => {
         <button 
           className="rounded-full text-xl p-4 flex text-slate-200 hover:bg-blue-300 hover:bg-opacity-10 cursor-pointer">
           <RiHome7Fill className="mr-3" size={28} />
-          Home
+          <p className="invisible sm:text-blue-600 md:text-red-200 lg:text-blue-50 xl:text-blue-400">Home</p>
         </button>
       </Link>
 

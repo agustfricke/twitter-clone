@@ -2,18 +2,24 @@ import { Outlet } from "react-router-dom"
 import SideBar from "./SideBar"
 import Search from "./Search"
 import { Toaster } from 'react-hot-toast';
+import Sidebar from "./SideFoo";
+import SearchFoo from "./SearchFoo";
 
 const Layout = () => {
   return (
     <>
       <Toaster/>
-      <div class="grid md:grid-cols-3 gap-1 px-2 text-center ">
-
-        <div className="text-white ml-[300px]"><SideBar/></div>
-        <div className="border-x-[1px] border-neutral-800"><Outlet/></div>
-        <div className="mr-[220px]  ml-5 mt-2"> <Search/> </div>
-
-      </div>
+      <div class="flex justify-center">
+  <div class="shrink w-14 sm:w-14 md:w-64 lg:w-[350px] xl:w-[350px] ">
+          <Sidebar/>
+  </div>
+  <div class="shrink w-[500px] pr-6">
+    <Outlet/>
+  </div>
+  <div class="shrink w-0 sm:w-14 md:w-64 lg:2-[450px] xl:w-[450px]">
+    <SearchFoo/>
+  </div>
+  </div>
     </>
   )
 }

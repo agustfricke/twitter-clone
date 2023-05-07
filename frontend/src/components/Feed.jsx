@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useMutation, useQueryClient, useInfiniteQuery } from 'react-query'
 import { useInView } from 'react-intersection-observer'
 import { useEffect } from 'react';
+import Loader from './Loader';
 
 const Feed = () => {
 
@@ -59,6 +60,7 @@ const Feed = () => {
 
   return (
     <>
+      <Loader/>
       <div className="border-b-[1px] border-neutral-800 p-5">
         <div className="flex flex-row items-start gap-3">
 

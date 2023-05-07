@@ -3,6 +3,7 @@ import { login } from '../api/apiUsers'
 import { Formik, Field, Form } from 'formik'
 import { BsTwitter } from "react-icons/bs";
 import { Link , useNavigate } from 'react-router-dom';
+import Loader from './Loader'
 
 const LoginPage = () => {
 
@@ -19,6 +20,8 @@ const LoginPage = () => {
       console.error(error)
     }
   })
+
+  if (loginMutation.isLoading) return <Loader />
 
   return (
     <>

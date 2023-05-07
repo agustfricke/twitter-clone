@@ -40,12 +40,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'name']
+    REQUIRED_FIELDS = ['username']
 
     class Meta:
         ordering = ['-date_joined']
 
-    def __str__(self):
-        return f'{self.username}'
 
     

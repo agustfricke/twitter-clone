@@ -75,7 +75,7 @@ const Search = () => {
   const [search, setSearch] = useState('')
  
 
-  const {data, isLoading, error} = useQuery({
+  const {data, isLoading } = useQuery({
     queryKey: ['search', search],
     queryFn: 
     () => {

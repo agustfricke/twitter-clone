@@ -90,6 +90,5 @@ def get_user_tweets(request, username):
 class TweetDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Tweet.objects.all()
     serializer_class = TweetSerializer
-
     permission_classes = [IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
 

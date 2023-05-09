@@ -5,13 +5,14 @@ import { toast } from "react-hot-toast"
 import Loader from "./Loader"
 import Like from "./Like"
 import Rt from "./Rt"
+import { Link } from "react-router-dom"
 
 const MyLikes = ({ user }) => {
 
   const userId = localStorage.getItem('user_id')
 
   const { data: likes, isLoading, isError, error } = useQuery({
-    queryKey: "tweets",
+    queryKey: ["tweets"],
     queryFn: () => getUserLikes(user.username),
   })
 
@@ -24,7 +25,7 @@ const MyLikes = ({ user }) => {
   <div key={t.id} className="border-b-[1px] border-neutral-800 p-5 cursor-pointer hover:bg-neutral-900 transition">
     <div className="flex flex-row items-start gap-3">
 
-      <img className="h-11 w-11 rounded-full" src={user.avatar} />
+      <img className="h-11 w-11 rounded-full" src={`http://127.0.0.1:8000${t.avatar}`} />
 
       <div>
         <div className="flex flex-row items-center gap-2">
@@ -53,8 +54,16 @@ const MyLikes = ({ user }) => {
         <div className="flex flex-row items-center mt-3 gap-10">
 
           <div className="flex flex-row items-center text-neutral-500 gap-2 cursor-pointer transition hover:text-sky-500">
-            <AiOutlineMessage size={20} />
-            <p>23</p>
+
+          <Link to={`/tweet/${t.id}`}>
+
+                      <AiOutlineMessage size={20} />
+                      </Link>
+
+                      <p>
+                        {t.parent.length}
+                      </p>
+
           </div>
 
           <div className="flex flex-row items-center text-neutral-500 gap-2 cursor-pointer transition hover:text-green-500">

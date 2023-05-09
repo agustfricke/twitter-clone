@@ -24,10 +24,12 @@ const UserProfile = () => {
   const [isEditing, setIsEditing] = useState(false)
   const [show, setShow] = useState(0)
 
-  const { data: user, isLoading: loadingUser , isError: isErrorUser , error: errorUser } = useQuery({
+  const { data: user, isLoading: loadingUser , isError: isErrorUser } = useQuery({
     queryKey: ['user', username],
     queryFn: () => userProfile(username),
   })
+
+  console.log(user)
 
   const { data: tweets, isLoading: loadingTweets, isError: isErrorTweets, error: errorTweets } = useQuery({
     queryFn: () => getUserTweets(username),

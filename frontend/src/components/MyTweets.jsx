@@ -76,7 +76,7 @@ const MyTweets = ({ user, myUser, tweets }) => {
 
           <div className="flex flex-row items-center text-neutral-500 gap-2 cursor-pointer transition hover:text-sky-500">
             <AiOutlineMessage size={20} />
-            <p>23</p>
+            <p>{t.parent.length}</p>
           </div>
 
           <div className="flex flex-row items-center text-neutral-500 gap-2 cursor-pointer transition hover:text-green-500">

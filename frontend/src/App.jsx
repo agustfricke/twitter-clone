@@ -8,6 +8,8 @@ import Feed from "./pages/Feed"
 import UserProfile from "./pages/UserProfile"
 import SoloTweet from "./pages/SoloTweet"
 import Noti from "./pages/Noti"
+import Chat from "./pages/Chat"
+import Contacts from "./pages/Contacts"
 
 
 function App() {
@@ -24,9 +26,10 @@ function App() {
             <Route path="/tweet/:id" element={<SoloTweet/>} />
             <Route path="/:username" element={<UserProfile/>} />
             <Route path="/noti" element={<Noti/>} />
+            <Route path="/chat/:user" element={<Chat/>} />
+            <Route path="/contacts" element={<Contacts/>} />
 
           </Route>
-
 
         </Route>
 

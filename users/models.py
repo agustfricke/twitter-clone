@@ -45,5 +45,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         ordering = ['-date_joined']
 
+    @property
+    def followed_usernames(self):
+        return [{'username': user.username, 'avatar': user.avatar.url} for user in self.followed.all()]
+
 
     

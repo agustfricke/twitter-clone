@@ -18,10 +18,19 @@ class MyTweetSerializer(serializers.ModelSerializer):
     likes_count = serializers.SerializerMethodField(read_only=True)
     retweets_count = serializers.SerializerMethodField(read_only=True)
     user = serializers.ReadOnlyField(source='user.username')
+    avatar = serializers.ReadOnlyField(source='user.avatar.url')
 
     class Meta:
         model = Tweet
-        fields = '__all__'
+        fields = ['id', 'user', 
+                  'avatar', 
+                  'content', 
+                  'image', 'liked', 
+                  'retweeted', 'created_at', 
+                  'likes_count', 'retweets_count','parent']
+
+    def get_avatar(self, obj):
+        return obj.user.avatar.url
 
     def get_likes_count(self, obj):
         return obj.liked.all().count()

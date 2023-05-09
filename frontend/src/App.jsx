@@ -1,38 +1,40 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import LoginPage from './components/LoginPage'
-import Feed from './components/Feed'
-import Layout from './components/Layout'
-import PrivateRoute from './components/PrivateRoute'
-import Register from './components/Register'
-import UserProfile from './components/UserProfile'
-import SoloTweet from './components/SoloTweet'
-import Chat from './components/Chat'
-import Noti from './components/Noti'
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import PrivateRoute from "./components/PrivateRoute"
+import Layout from "./components/Layout"
+
+import LoginPage from "./pages/LoginPage"
+import Register from "./pages/Register"
+import Feed from "./pages/Feed"
+import UserProfile from "./pages/UserProfile"
+import SoloTweet from "./pages/SoloTweet"
+import Noti from "./pages/Noti"
+
 
 function App() {
 
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
 
         <Route path='/' element={<Layout/>}>
+
           <Route element={<PrivateRoute/>}>
-            <Route index element={<Feed/>}/>
-            <Route path='/profile' element={<UserProfile/>}/>
-            <Route path=':username' element={<UserProfile/>}/>
-            <Route path='/tweet/:id' element={<SoloTweet/>}/>
-            <Route path='/chat/:user' element={<Chat/>}/>
-            <Route path='/notification' element={<Noti/>}/>
+
+            <Route path="/" element={<Feed/>} />
+            <Route path="/tweet/:id" element={<SoloTweet/>} />
+            <Route path="/:username" element={<UserProfile/>} />
+            <Route path="/noti" element={<Noti/>} />
+
           </Route>
+
+
         </Route>
 
-        <Route path='auth'>
-          <Route path='login' element={<LoginPage/>}/>
-          <Route path='register' element={<Register/>}/>
-        </Route>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<Register/>} />
 
       </Routes>
-    </Router>
+    </BrowserRouter>
   )
 }
 

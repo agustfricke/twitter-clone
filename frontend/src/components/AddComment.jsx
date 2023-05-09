@@ -1,44 +1,40 @@
-import { useMutation, useQueryClient } from 'react-query'
+import { addComment } from "../api/tweets"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import Loader from "./Loader"
 import { useFormik } from "formik";
-import { addComment } from "../api/apiComment";
 
-
-const AddComment = ({ tweetId }) => {
-
-  const id = tweetId
-
-  console.log(tweetId)
-
-  const avatar = localStorage.getItem('avatar')
+const AddComment = ({ tweet }) => {
 
   const queryClient = useQueryClient()
+  const avatar = localStorage.getItem('avatar')
 
-  const addCommentMutation = useMutation({
+  const addCommmentMutation = useMutation({
     mutationFn: addComment,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['comment']})
+      queryClient.invalidateQueries('comments')
     },
     onError: (error) => {
-      console.error(error)
+      console.log(error)
     }
   })
 
-  const genInitialValues = () => ({
-  body: "",
-});
+  const iniV = () => ({
+    body: ''
+  })
 
   const formik = useFormik({
-    initialValues: {genInitialValues},
+
+    initialValues: iniV(),
+
     onSubmit: (values, { resetForm }) => {
 
-      const { body } = values
+      addCommmentMutation.mutate({ ...values, id: tweet.id })
 
-
-      addCommentMutation.mutate({ body, id: id})
-
-        resetForm({ values: genInitialValues() });
+      resetForm()
     }
   })
+
+  if (addCommmentMutation.isLoading) return <Loader />
 
   return (
     <div
@@ -52,7 +48,7 @@ const AddComment = ({ tweetId }) => {
         <div className='flex gap-3 w-full border-b-[1px] 
           border-neutral-800 p-3'>
 
-          <img src={`http://127.0.0.1:8000/${avatar}`} className='h-14 w-14 rounded-full ' />
+          <img src={`http://127.0.0.1:8000${avatar}`} className='h-14 w-14 rounded-full ' />
 
           <input 
             type="text" name="body" onChange={formik.handleChange} value={formik.values.body} 
@@ -64,13 +60,15 @@ const AddComment = ({ tweetId }) => {
         <div className="flex justify-end mt-4">
 
           <button type='submit' className="bg-sky-400 hover:bg-sky-500 p-2 px-5 rounded-full text-white font-bold">
-            Tweet
+            Reply
           </button>
+
         </div>
       </form>
 
     </div>
+
   )
 }
 
-export default AddComment 
+export default AddComment

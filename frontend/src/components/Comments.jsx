@@ -1,57 +1,47 @@
-import { useState } from 'react';
-import { getComments, deleteComment, editComment } from '../api/apiComment';
-import { useQuery, useQueryClient, useMutation } from 'react-query'
-import { Link } from 'react-router-dom';
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query"
+import { getComments, deleteComment } from "../api/tweets"
+import Loader from "./Loader"
+import toast from "react-hot-toast"
+import AddComment from "./AddComment"
+import { Link } from "react-router-dom"
 import { BsFillTrashFill } from 'react-icons/bs';
 import { AiFillEdit } from 'react-icons/ai';
-import { toast } from 'react-hot-toast';
-import { Formik, Field, Form } from 'formik'
+import EditComment from "./EditComment"
+import { useState } from "react"
 
-const Comments = ({ tweetId }) => {
-
-  const id = tweetId
+const Comments = ({ tweet }) => {
 
   const queryClient = useQueryClient()
-
   const [show, setShow] = useState(false)
 
-  const myUser = localStorage.getItem('username')
-
-  const { data: comments, isLoading, isError, error } = useQuery(['comment', id], () => getComments(id))
-
-  const editCommentMutation = useMutation({
-    mutationFn: editComment,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['comment']})
-      setShow(false)
-      toast.success('Comment edited successfully')
-    },
-    onError: (error) => {
-      setShow(false)
-      toast.error(error)
-    }
+  const { data: comments, isLoading, isError, error } = useQuery({
+    queryKey: ["comments", tweet.id],
+    queryFn: () => getComments(tweet.id)
   })
 
+  console.log(tweet.id)
+  console.log(comments)
+
   const deleteCommentMutation = useMutation({
-    mutationFn: deleteComment ,
+    mutationFn: deleteComment,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['comment']})
-      toast.success('Comment deleted successfully')
+      queryClient.invalidateQueries("comments")
+      toast.success("Comment deleted")
     },
     onError: (error) => {
       toast.error(error.message)
     }
   })
 
-
   console.log(comments)
 
-  if (isLoading) return <div>Loading</div>
-  if (isError) return <div>Error: {error.message}</div>
-
+  if (isLoading) return <Loader />
+  if (isError) return toast.error(error.message)
 
   return (
+
     <>
+      <AddComment tweet={tweet}/>
       {comments.map(c => (
         <div key={c.id} className="border-b-[1px] border-neutral-800 p-5 cursor-pointer hover:bg-neutral-900 transition">
           <div className="flex flex-row items-start gap-3">
@@ -62,7 +52,7 @@ const Comments = ({ tweetId }) => {
 
                 <p className="text-white font-semibold cursor-pointer hover:underline">
                   <Link to={`${c.user}`}>
-                  {c.user}
+                    {c.user}
                   </Link>
                 </p>
 
@@ -71,7 +61,7 @@ const Comments = ({ tweetId }) => {
                 </span>
 
                 <span className="text-neutral-500 text-sm">
-          {new Date(c.created_at).toDateString().slice(4)}
+                  {new Date(c.created_at).toDateString().slice(4)}
                 </span>
 
               </div>
@@ -80,52 +70,28 @@ const Comments = ({ tweetId }) => {
                 {c.body}
               </div>
 
-                {myUser === c.user && (
-                  <div className='flex justify-start gap-3 mt-4'>
-              <div 
-                  onClick={() => deleteCommentMutation.mutate(c.id)}
+              <div className='flex justify-start gap-3 mt-4'>
+                <div 
                   className="flex flex-row items-center text-neutral-500 gap-2 cursor-pointer transition hover:text-red-500">
-                <BsFillTrashFill  size={20} />
-              </div>
+                  <BsFillTrashFill  
+                    onClick={() => deleteCommentMutation.mutate(c.id)}
+                    size={20} />
+                </div>
 
-              <div className="flex flex-row items-center text-neutral-500 gap-2 cursor-pointer transition hover:text-yellow-300">
-                  <button onClick={() => setShow(true)}>
-                <AiFillEdit size={25} />
-                  </button>
-              </div>
-                 </div> 
-                  )}
+                <div className="flex flex-row items-center text-neutral-500 gap-2 cursor-pointer transition hover:text-yellow-300">
+                    <AiFillEdit 
+                    onClick={() => setShow(true)}
+                      size={25} />
+                  {show && <EditComment c={c} close={() => setShow(false)} />}
+                </div>
+              </div> 
 
-      {show && (
-
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 ">
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-800 w-[500px] h-[200px] rounded-md">
-              <p className="text-xl text-white text-center my-8 ">Edit Comment</p>
-      <Formik
-        initialValues={{
-                body: c.body,
-        }}
-        onSubmit={(values) => {
-          editCommentMutation.mutate({ id: c.id, body: values.body, tweet: c.tweet})}}
-      >
-              <Form>
-                <Field name='body' id='body' className="bg-gray-700 text-white rounded-full p-2 ml-5" />
-              <button type='submit'className="bg-sky-500 mr-7 text-white font-semibold rounded-full px-10 py-2 mt-3 ml-3 hover:bg-sky-600 transition">
-                  Edit
-              </button>
-              </Form>
-              </Formik>
+            </div>
           </div>
-        </div>
-
-      )}
-
-
-              </div>
-              </div>
         </div>
       ))}
     </>
+
   )
 }
 

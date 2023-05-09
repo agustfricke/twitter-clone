@@ -5,18 +5,3 @@
 :root {
   @apply h-full bg-black text-slate-200
 }
-
-body {
-  @apply h-full bg-black
-}
-
-.image-upload > input
-{
-    display: none;
-}
-
-.image-upload img
-{
-    width: 80px;
-    cursor: pointer;
-}

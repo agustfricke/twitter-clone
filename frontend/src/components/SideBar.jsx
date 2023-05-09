@@ -4,81 +4,26 @@ import { BiLogOutCircle } from "react-icons/bi";
 import { BsPersonFill } from "react-icons/bs";
 import { HiOutlineEnvelope } from "react-icons/hi2";
 import { RiHome7Fill } from "react-icons/ri";
-
-import { useQuery } from 'react-query'
-import { no_l } from '../api/apiNotifications'
-import { logout } from "../api/apiUsers";
-import { useNavigate, Link } from "react-router-dom";
+import SidebarLink from "./SidebarLink";
 
 const SideBar = () => {
 
-  const nav = useNavigate()
-
   const username = localStorage.getItem('username')
 
-  const { data: nop } = useQuery({
-    queryFn: no_l,
-    queryKey: ['no_lei']
-  })
-
-  if (nop === undefined) return <div>0</div>
-
-  function logoutUser () {
-    logout()
-    nav('/auth/login')
-  }
-
   return (
-    <>
 
-      <Link to={'/'}>
-        <button className="rounded-full h-14 w-14 p-4 flex text-slate-200 hover:bg-blue-300 hover:bg-opacity-10 cursor-pointer">
-          <BsTwitter size={28} />
-        </button>
-      </Link>
-
-      <Link to={'/'}>
-        <button 
-          className="rounded-full text-xl p-4 flex text-slate-200 hover:bg-blue-300 hover:bg-opacity-10 cursor-pointer">
-          <RiHome7Fill className="mr-3" size={28} />
-          <p className="invisible sm:text-blue-600 md:text-red-200 lg:text-blue-50 xl:text-blue-400">Home</p>
-        </button>
-      </Link>
-
-      <Link to={'/messages'}>
-        <button 
-          className="rounded-full text-xl p-4 flex text-slate-200 hover:bg-blue-300 hover:bg-opacity-10 cursor-pointer">
-          <HiOutlineEnvelope className="mr-3" size={28} />
-          Messages
-        </button>
-      </Link>
-
-      <Link to={'/notification'}>
-        <button 
-          className="rounded-full text-xl p-4 flex text-slate-200 hover:bg-blue-300 hover:bg-opacity-10 cursor-pointer">
-          <IoIosNotificationsOutline className="mr-3" size={28} />
-
-        {nop.length} 
-          Notifications
-        </button>
-      </Link>
-
-      <Link to={`${username}`}>
-        <button 
-          className="rounded-full text-xl p-4 flex text-slate-200 hover:bg-blue-300 hover:bg-opacity-10 cursor-pointer">
-          <BsPersonFill className="mr-3" size={28} />
-          Profile
-        </button>
-      </Link>
-
-      <button 
-        onClick={logoutUser} 
-        className="rounded-full text-xl p-4 flex text-slate-200 hover:bg-blue-300 hover:bg-opacity-10 cursor-pointer">
-        <BiLogOutCircle className="mr-3" size={28} />
-        Logout
-      </button>
-
-      </>
+    <div className="sm:flex flex-col items-center xl:items-start xl:w-[340px] p-2 fixed h-full">
+      <div className="space-y-2.5  mt-3 mb-2.5 xl:ml-24">
+          <BsTwitter size={28} className="ml-4 mb-2" />
+        <SidebarLink link='' text="Home" Icon={<RiHome7Fill size={28}/>} />
+        <SidebarLink link={username} text="Profile" Icon={<BsPersonFill size={28}/>} />
+        <SidebarLink link='/chat' text="Chat" Icon={<HiOutlineEnvelope size={28}/>} />
+        <SidebarLink link='/noti' text="Notifications" Icon={<IoIosNotificationsOutline size={28}/>} />
+          <button 
+          className="ml-1 rounded-full text-xl p-4 flex text-slate-200 hover:bg-blue-300 hover:bg-opacity-10 cursor-pointer"
+          onClick={() => localStorage.clear()}><BiLogOutCircle size={28}/></button>
+      </div>
+    </div>
   )
 }
 

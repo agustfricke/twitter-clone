@@ -1,6 +1,6 @@
 # ¡Full Stack Clon de Twitter con Django Rest Framework, React, Tenstack y Tailwind CSS!
 
-⚡  Este proyecto es un clon de Twitter, construido con Django Rest Framework, React, Tenstack y Tailwind CSS. Permite a los usuarios crear una cuenta, iniciar sesión y compartir mensajes cortos, conocidos como "tweets", con otros usuarios en línea, ademas de tener comentarios, likes, retweets, notifiaciones y chat privados con websockets
+⚡  Este proyecto es un clon de Twitter, construido con Django Rest Framework, React, Tenstack y Tailwind CSS. Permite a los usuarios crear una cuenta, iniciar sesión y compartir mensajes cortos, conocidos como "tweets", con otros usuarios en línea, ademas de tener comentarios, likes, retweets, notifiaciones y chat privados con websockets.
 
 ## Dale una estrella ⭐
 ### YouTube video :tv: https://www.youtube.com/watch?v=4l9N4ozhwFY&t=6273s

@@ -7,3 +7,6 @@
 
 ![twitter-clone](https://github.com/agustfricke/twitter-clone/assets/110266171/dbbfe7ad-a7d9-4f63-a757-3de6d8d93582)
 ![Screenshot_2023-05-09_23-21-03](https://github.com/agustfricke/twitter-clone/assets/110266171/ae4c31b6-344e-43aa-9abc-32fedf6d56fa)
+
+## Contribución
+:information_source: ¡Las contribuciones son bienvenidas! Si deseas contribuir a este proyecto, crea una rama con tu función o solución propuesta y abre un pull request.

@@ -63,7 +63,7 @@ const Feed = () => {
             <div key={t.id} className="border-b-[1px] border-neutral-800 p-5 cursor-pointer hover:bg-neutral-900 transition">
               <div className="flex flex-row items-start gap-3">
 
-                <img className="h-11 w-11 rounded-full" src={`http://18.228.206.252:8000${t.avatar}`} />
+                <img className="h-11 w-11 rounded-full" src={t.avatar} />
 
                 <div>
                   <div className="flex flex-row items-center gap-2">

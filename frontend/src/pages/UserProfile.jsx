@@ -61,15 +61,6 @@ const UserProfile = () => {
                 {user.username}
               </p>
             </div>
-
-            <div className="text-white mt-1 ml-4">
-              <span
-                className="text-neutral-500 hidden md:block"
-              >
-                22 Tweets
-              </span>
-            </div>
-
           </div>
         </div>
       </div>

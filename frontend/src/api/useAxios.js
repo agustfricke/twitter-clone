@@ -5,7 +5,6 @@ const baseURL = "http://186.108.202.244:8000";
 
 export const axi = axios.create({
     baseURL,
-    httpsAgent: new https.Agent({ rejectUnauthorized: false }),
 })
 
 export const authAxios = axios.create({

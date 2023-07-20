@@ -1,10 +1,11 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 
-const baseURL = "http://127.0.0.1:8000";
+const baseURL = "http://186.108.202.244:8000";
 
 export const axi = axios.create({
-  baseURL,
+    baseURL,
+    httpsAgent: new https.Agent({ rejectUnauthorized: false }),
 })
 
 export const authAxios = axios.create({

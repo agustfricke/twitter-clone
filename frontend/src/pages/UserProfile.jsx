@@ -29,14 +29,12 @@ const UserProfile = () => {
     queryFn: () => userProfile(username),
   })
 
-  console.log(user)
-
   const { data: tweets, isLoading: loadingTweets, isError: isErrorTweets, error: errorTweets } = useQuery({
     queryFn: () => getUserTweets(username),
     queryKey: ['user_tweets']
   })
 
-  if(loadingTweets) return <div>Loading</div>
+  if(loadingTweets) return <Loader />
   if(isErrorTweets) return <div>Error: {errorTweets.message}</div>
 
   if (loadingUser ) return <Loader/>

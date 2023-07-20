@@ -1,7 +1,7 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 
-const baseURL = "http://186.108.202.244:8000";
+const baseURL = import.meta.env.VITE_BACKEND_URL
 
 export const axi = axios.create({
     baseURL,

@@ -22,7 +22,10 @@ const Chat = () => {
     queryFn: () => getChat(user),
   })
 
-  const { sendJsonMessage } = useWebSocket(`ws://127.0.0.1:8000/ws/${user}/${me}/`, {
+
+    const baseURL = import.meta.env.VITE_BACKEND_WS
+
+  const { sendJsonMessage } = useWebSocket(`${baseURL}/${user}/${me}/`, {
     onOpen: () => {
       console.log('Connected!')
     },
@@ -128,9 +131,6 @@ const Chat = () => {
         </button>
 
       </div>
-
-
-
     </>
 
   )

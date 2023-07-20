@@ -20,7 +20,7 @@ function Result({ data, isLoading, isError, error }) {
             className="hover:bg-white hover:bg-opacity-[0.03] px-4 py-2 cursor-pointer transition duration-200 ease-out flex items-center"
           >
             <img
-              src={`http://127.0.0.1:8000${user.avatar}`}
+              src={user.avatar}
               width={50}
               height={50}
               className="rounded-full"
@@ -91,7 +91,7 @@ const Search = () => {
             className="hover:bg-white hover:bg-opacity-[0.03] px-4 py-2 cursor-pointer transition duration-200 ease-out flex items-center"
           >
             <img
-              src={`http://127.0.0.1:8000${user.avatar}`}
+              src={user.avatar}
               width={50}
               height={50}
               objectFit="cover"

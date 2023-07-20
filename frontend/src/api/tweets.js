@@ -49,8 +49,10 @@ export const editTweet = async (data) => {
 }
 
 export const getUserTweets = async (username) => {
-  const response = await authAxios.get(`/tweets/my/${username}`);
+  const response = await authAxios.get(`/tweets/my/${username}/`);
+    console.log(response.data)
   return response.data;
+
 }
 
 export const addTweet = async (data) => {

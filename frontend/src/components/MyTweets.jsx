@@ -30,18 +30,20 @@ const MyTweets = ({ user, myUser, tweets }) => {
     }
   })
 
-  // const { data, isLoading, isError, error } = useQuery({
-  //   queryKey: ["tweets", user.username],
-  //   queryFn: () => getUserTweets(user.username),
-  // })
+  const { data, isLoading, isError, error } = useQuery({
+  queryKey: ["tweets", user.username],
+  queryFn: () => getUserTweets(user.username),
+  })
+
+    console.log(data, user)
 
   if(deleteTweetMutation.isLoading) return <Loader/>
-  // if (isLoading) return <Loader/>
-  // if (isError) return toast.error(error.message)
+  if (isLoading) return <Loader/>
+  if (isError) return toast.error(error.message)
 
   return (
     <>
-    {tweets.map(t => (
+    {data.map && data.map(t => (
   <div key={t.id} className="border-b-[1px] border-neutral-800 p-5 cursor-pointer hover:bg-neutral-900 transition">
     <div className="flex flex-row items-start gap-3">
 
@@ -70,7 +72,7 @@ const MyTweets = ({ user, myUser, tweets }) => {
           {t.content}
         </div>
 
-          <img src={`http://127.0.0.1:8000${t.image}`} />
+          <img src={t.image}/>
 
         <div className="flex flex-row items-center mt-3 gap-10">
 
@@ -80,7 +82,6 @@ const MyTweets = ({ user, myUser, tweets }) => {
           </div>
 
           <div className="flex flex-row items-center text-neutral-500 gap-2 cursor-pointer transition hover:text-green-500">
-            {/* <AiOutlineRetweet size={20} color={"green"} /> */}
             <Rt t={t} user={userId}/>
             <p>
                 {t.retweets_count}
@@ -88,7 +89,6 @@ const MyTweets = ({ user, myUser, tweets }) => {
           </div>
 
           <div className="flex flex-row items-center text-neutral-500 gap-2 cursor-pointer transition hover:text-red-500">
-            {/* <AiFillHeart color={"red"} size={20} /> */}
             <Like t={t} user={userId} />
             <p>
               {t.likes_count}

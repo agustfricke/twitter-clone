@@ -58,7 +58,7 @@ const AddTweet = () => {
         <div className='flex gap-3 w-full border-b-[1px] 
           border-neutral-800 p-3'>
 
-          <img src={`http://127.0.0.1:8000${avatar}`} className='h-14 w-14 rounded-full ' />
+          <img src={avatar} className='h-14 w-14 rounded-full ' />
 
           <input 
             type="text" name="content" onChange={formik.handleChange} value={formik.values.content} 

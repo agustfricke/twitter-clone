@@ -6,7 +6,7 @@
 
 - clona el repo y crea un ambiente virtual con python
 ```bash
-git clone https://github.com/agustfricke/twitter-clone.git
+git clone https://github.com/agustfricke/twitter-clone.git 
 cd twitter-clone
 python3 -m venv env
 ```
@@ -28,7 +28,7 @@ python3 manage.py runserver
 
 - en una nueva terminal instala las dependencias de react y corre el servidor
 ```bash
-cd frontend
+cd twitter-clone/frontend
 npm i
 npm run dev
 ```

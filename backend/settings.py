@@ -152,7 +152,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.User'
 
 CORS_ALLOWED_ORIGINS = [
-    'https://techconagust.com',
+        'http://localhost:5173',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
